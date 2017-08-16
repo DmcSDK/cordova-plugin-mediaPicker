@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="cordova-plugin-mediaPicker" version="1.0.0" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>MediaPicker</name>
+    <js-module name="MediaPicker" src="www/MediaPicker.js">
+        <clobbers target="window.MediaPicker" />
+    </js-module>
+    <platform name="android">
+        <config-file parent="/*" target="res/xml/config.xml">
+            <feature name="MediaPicker">
+                <param name="android-package" value="com.dmc.mediaPicker.MediaPicker" />
+            </feature>
+        </config-file>
+        <config-file parent="/*" target="AndroidManifest.xml"></config-file>
+        <config-file target="AndroidManifest.xml" parent="/manifest">
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+        </config-file>
+        <framework src="com.dmcBig:mediapicker:1.1" />
+        <source-file src="src/android/MediaPicker.java" target-dir="src/com/dmc/mediaPicker" />
+    </platform>
+</plugin>
