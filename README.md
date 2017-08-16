@@ -10,7 +10,7 @@ use npm:
     cordova plugin add cordova-plugin-mediapicker-dmcbig
 ```
 
-code:
+html code:
 
     <body>
         <div>
@@ -23,6 +23,36 @@ code:
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
     </body>
+
+index.js code:
+
+    var img1=document.getElementById('img1');
+    var img2=document.getElementById('img2');
+    var data;
+
+    document.getElementById('openBtn').onclick=function(){
+        var args={'showThumbnail':true,
+                   'selectMode':101,//101=PICKER_IMAGE_VIDEO , 100=PICKER_IMAGE
+                   'maxSelectCount':2, //default 40 (Optional)
+                   'maxSelectSize':188743680,//188743680=180M (Optional)
+                  };
+        MediaPicker.getMedias(args,function(dataArray){
+            data=dataArray;//[{mediaType: "image",rotate: 90, path:'/storage/emulated/0/DCIM/Camera/20170808_145202.jpg' thumbnailBase64: '9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAEBAQEBAQEBAQEB'}]
+            img1.src = 'data:image/jpeg;base64,'+dataArray[0].thumbnailBase64;
+            img1.setAttribute('style', 'transform:rotate(' + dataArray[0].rotate + 'deg)');
+
+            img2.src = 'data:image/jpeg;base64,'+dataArray[1].thumbnailBase64;
+            img2.setAttribute('style', 'transform:rotate(' + dataArray[1].rotate + 'deg)');
+        },function(err){
+            console.log(err);
+        })
+     };
+
+     document.getElementById('uploadBtn').onclick=function(){
+        //please:  cordova plugin add cordova-plugin-file-transfer
+        //see:  https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-file-transfer/index.html
+     };
+
 
 
 # Example
