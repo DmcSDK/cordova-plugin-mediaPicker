@@ -4,16 +4,10 @@ android  mediaPicker support  selection of multiple image and video
 How do I use?
 -------------------
 
-use Gradle:
+use npm:
 
-```gradle
-repositories {
-    mavenCentral() // jcenter() works as well because it pulls from Maven Central
-}
-
-dependencies {
-    compile 'com.dmcBig:mediapicker:1.1'
-}
+```npm
+    cordova-plugin-mediapicker-dmcbig
 ```
 
 code:
