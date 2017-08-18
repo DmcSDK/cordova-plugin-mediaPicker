@@ -27,27 +27,27 @@ html code:
 
 index.js code:
 
-    var imgs[]=document.getElementByName('imgs');
+    var imgs=document.getElementsByName('imgView');
     var args={'showThumbnail':true,
                'selectMode':101,//101=PICKER_IMAGE_VIDEO , 100=PICKER_IMAGE
                'maxSelectCount':12, //default 40 (Optional)
                'maxSelectSize':188743680,//188743680=180M (Optional)
               };
 
-    document.getElementById('openBtn').onclick=function{
+    document.getElementById('openBtn').onclick=function(){
 
         MediaPicker.getMedias(args,function(dataArray){
             //dataArray [{mediaType: "image",rotate: 90, path:'/storage/emulated/0/DCIM/Camera/20170808_145202.jpg' thumbnailBase64: '9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAEBAQEBAQEBAQEB'}]
-            for(var i=0; i<arr.length; i++){
-                imgs[i].src= = 'data:image/jpeg;base64,'+dataArray[i].thumbnailBase64;
-                img2[i].setAttribute('style', 'transform:rotate(' + dataArray[i].rotate + 'deg)');
+            for(var i=0; i<dataArray.length; i++){
+                imgs[i].src= 'data:image/jpeg;base64,'+dataArray[i].thumbnailBase64;
+                imgs[i].setAttribute('style', 'transform:rotate(' + dataArray[i].rotate + 'deg)');
             }
         },function(err){
             console.log(err);
         })
      };
 
-     document.getElementById('uploadBtn').onclick=function {
+     document.getElementById('uploadBtn').onclick=function() {
         //please:  cordova plugin add cordova-plugin-file-transfer
         //see:  https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-file-transfer/index.html
      };
