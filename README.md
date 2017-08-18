@@ -7,7 +7,7 @@ How do I use?
 use npm:
 
 ```npm
-    cordova plugin add cordova-plugin-mediapicker-dmcbig
+  cordova plugin add cordova-plugin-mediapicker-dmcbig
 ```
 ## Example
 html code:
