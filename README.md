@@ -1,4 +1,4 @@
-# mediaPicker v:1.0.6
+# MediaPicker v:1.0.6
 android  mediaPicker support  selection of multiple image and video 
 
 How do I use?
