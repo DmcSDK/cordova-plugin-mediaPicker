@@ -37,7 +37,7 @@ index.js code:
 
     var imgs=document.getElementsByName('imgView');
     var args={'showThumbnail':true,
-               'selectMode':101,//101=PICKER_IMAGE_VIDEO , 100=PICKER_IMAGE
+               'selectMode':101,//101=PICKER_IMAGE_VIDEO , 100=PICKER_IMAGE , 102=PICKER_VIDEO
                'maxSelectCount':12, //default 40 (Optional)
                'maxSelectSize':188743680,//188743680=180M (Optional)
               };
