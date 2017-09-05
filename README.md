@@ -9,6 +9,14 @@ use npm:
 ```npm
   cordova plugin add cordova-plugin-mediapicker-dmcbig
 ```
+remove npm:
+
+```npm
+  cordova plugin remove cordova-plugin-mediapicker-dmcbig
+  or
+  cordova plugin remove cordova-plugin-mediaPicker
+```
+
 ## Example
 html code:
 
