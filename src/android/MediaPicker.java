@@ -7,7 +7,7 @@ import android.media.ExifInterface;
 import android.media.ThumbnailUtils;
 import android.provider.MediaStore;
 import android.util.Base64;
-
+import android.net.Uri;
 import com.dmcbig.mediapicker.PickerActivity;
 import com.dmcbig.mediapicker.PickerConfig;
 import com.dmcbig.mediapicker.entity.Media;
@@ -109,7 +109,8 @@ public class MediaPicker extends CordovaPlugin {
                         object.put("thumbnailBase64",thumbToBase64(path,media.mediaType));
                     }
                     object.put("path",path);
-                    object.put("rotate",getBitmapRotate(path));
+                    object.put("uri",Uri.parse(path));
+                    object.put("exifRotate",getBitmapRotate(path));
                     object.put("mediaType",media.mediaType==3?"video":"image");
                     jsonArray.put(object);
                 }
