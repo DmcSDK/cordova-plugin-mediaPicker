@@ -11,7 +11,7 @@ import android.net.Uri;
 import com.dmcbig.mediapicker.PickerActivity;
 import com.dmcbig.mediapicker.PickerConfig;
 import com.dmcbig.mediapicker.entity.Media;
-
+import com.dmcbig.mediapicker.TakePhotoActivity;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.json.JSONArray;
@@ -40,8 +40,20 @@ public class MediaPicker extends CordovaPlugin {
         if (action.equals("getMedias")) {
             this.getMedias(args, callbackContext);
             return true;
+        }else if(action.equals("takePhoto")){
+            this.takePhoto(args, callbackContext);
+            return true;
+        }else if(action.equals("photoLibrary")){
+            this.getMedias(args, callbackContext);
+            return true;
         }
         return false;
+    }
+
+    private void takePhoto(JSONArray args, CallbackContext callbackContext) {
+        this.callback=callbackContext;
+        Intent intent =new Intent(cordova.getActivity(), TakePhotoActivity.class); //Take a photo with a camera
+        this.cordova.startActivityForResult(this,intent,200);
     }
 
     private void getMedias(JSONArray args, CallbackContext callbackContext) {
@@ -109,6 +121,7 @@ public class MediaPicker extends CordovaPlugin {
                         object.put("thumbnailBase64",thumbToBase64(path,media.mediaType));
                     }
                     object.put("path",path);
+                    object.put("size",media.size);
                     object.put("uri",Uri.parse(path));
                     object.put("exifRotate",getBitmapRotate(path));
                     object.put("mediaType",media.mediaType==3?"video":"image");
