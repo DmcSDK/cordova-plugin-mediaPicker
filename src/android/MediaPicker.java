@@ -229,7 +229,7 @@ public class MediaPicker extends CordovaPlugin {
             byte[] imageBytes = baos.toByteArray();
             encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
             baos.close();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return encodedImage;

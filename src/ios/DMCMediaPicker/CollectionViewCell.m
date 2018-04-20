@@ -1,0 +1,45 @@
+
+
+#import "CollectionViewCell.h"
+
+@implementation CollectionViewCell
+- (id)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        CGFloat width=CGRectGetWidth(self.frame);
+        
+        self.imgView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, width, width)];
+        self.imgView.contentMode=UIViewContentModeScaleAspectFill;
+        self.imgView.clipsToBounds=YES;
+        
+        CGFloat checkWidth=width/5;
+        self.checkView=[[UIImageView alloc]initWithFrame:CGRectMake(width-checkWidth-5, 5, checkWidth, checkWidth)];
+        self.whiteView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, width, width)];
+        
+        
+        CGFloat labelH=width/6;
+        self.labelL = [[UILabel alloc]initWithFrame:CGRectMake(0, width-labelH, width/2, labelH)];
+        self.labelL.textColor=[UIColor whiteColor];
+        self.labelL.font=[UIFont systemFontOfSize:13.0];
+        self.labelL.backgroundColor= [[UIColor blackColor] colorWithAlphaComponent:0.3f];
+   
+        
+        self.labelR = [[UILabel alloc]initWithFrame:CGRectMake(width/2, width-labelH, width/2, labelH)];
+        self.labelR.textColor=[UIColor whiteColor];
+        self.labelR.font=[UIFont systemFontOfSize:13.0];
+        self.labelR.textAlignment=NSTextAlignmentRight;
+        self.labelR.backgroundColor= [[UIColor blackColor] colorWithAlphaComponent:0.3f];
+
+        
+        
+        [self addSubview:self.imgView];
+        [self addSubview:self.whiteView];
+        [self addSubview:self.checkView];
+        [self addSubview:self.labelL];
+        [self addSubview:self.labelR];
+        
+    }
+    return self;
+}
+@end
