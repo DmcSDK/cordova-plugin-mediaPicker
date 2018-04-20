@@ -1,4 +1,4 @@
-# MediaPicker v:1.0.6
+# MediaPicker v:2.0.0
 android  mediaPicker support  selection of multiple image and video 
 
 How do I use?
@@ -8,13 +8,6 @@ use npm:
 
 ```npm
   cordova plugin add cordova-plugin-mediapicker-dmcbig
-```
-remove npm:
-
-```npm
-  cordova plugin remove cordova-plugin-mediapicker-dmcbig
-  or
-  cordova plugin remove cordova-plugin-mediaPicker
 ```
 
 ## Example
