@@ -38,7 +38,7 @@ index.js code:
 
     document.getElementById('openBtn').onclick=function(){
           MediaPicker.getMedias(args,function(dataArray){
-              //dataArray [{mediaType: "image", path:'/storage/emulated/0/DCIM/Camera/20170808_145202.jpg', path:'/storage/emulated/0/DCIM/Camera/20170808_145202.jpg'}]
+              //dataArray [{mediaType: "image", path:'/storage/emulated/0/DCIM/Camera/20170808_145202.jpg', size: 21993}]
               getThumbnail(dataArray);
           },err())
     };
