@@ -1,5 +1,5 @@
 # MediaPicker v:2.0.0
-android  mediaPicker support  selection of multiple image and video 
+android ios mediaPicker support  selection of multiple image and video 
 
 How do I use?
 -------------------
@@ -56,6 +56,7 @@ index.js code:
     document.getElementById('uploadBtn').onclick=function() {
         //please:  cordova plugin add cordova-plugin-file-transfer
         //see:  https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-file-transfer/index.html
+        //use dataArray[index].path
     };
 
     function err(data){
