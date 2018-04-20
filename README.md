@@ -35,12 +35,14 @@ index.js code:
         'maxSelectSize':188743680,//188743680=180M (Optional)
     };
 
+
     document.getElementById('openBtn').onclick=function(){
           MediaPicker.getMedias(args,function(dataArray){
               //dataArray [{mediaType: "image", path:'/storage/emulated/0/DCIM/Camera/20170808_145202.jpg', path:'/storage/emulated/0/DCIM/Camera/20170808_145202.jpg'}]
               getThumbnail(dataArray);
           },err())
     };
+
 
     function getThumbnail(dataArray){
           for(var i=0; i<dataArray.length; i++){
@@ -52,6 +54,7 @@ index.js code:
                 },err());
           }
     }
+
 
     document.getElementById('uploadBtn').onclick=function() {
         //please:  cordova plugin add cordova-plugin-file-transfer
