@@ -9,6 +9,8 @@ import android.media.ThumbnailUtils;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.net.Uri;
+import android.util.Log;
+
 import com.dmcbig.mediapicker.PickerActivity;
 import com.dmcbig.mediapicker.PickerConfig;
 import com.dmcbig.mediapicker.entity.Media;
@@ -31,14 +33,9 @@ import java.util.ArrayList;
  */
 public class MediaPicker extends CordovaPlugin {
     private  CallbackContext callback;
-    private  boolean showBase64=false;
-    private  boolean showThumbnail=false;
-    private  boolean showProgressDialog=true;
     private  int quality=50;
-    private  int thumbnailW=120;
-    private  int thumbnailH=120;
-    private ProgressDialog dialog;
-    private String progressDialogStr="";
+    private  int thumbnailW=200;
+    private  int thumbnailH=200;
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         getPublicArgs(args);
@@ -82,7 +79,7 @@ public class MediaPicker extends CordovaPlugin {
                 e.printStackTrace();
             }
             try {
-                intent.putExtra(PickerConfig.MAX_SELECT_SIZE,jsonObject.getInt("maxSelectSize")); //default 180MB (Optional)
+                intent.putExtra(PickerConfig.MAX_SELECT_SIZE,jsonObject.getLong("maxSelectSize")); //default 180MB (Optional)
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -114,21 +111,6 @@ public class MediaPicker extends CordovaPlugin {
                 e.printStackTrace();
             }
             try {
-                showBase64 = jsonObject.getBoolean("showBase64");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                showThumbnail = jsonObject.getBoolean("showThumbnail");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                progressDialogStr = jsonObject.getString("progressDialogStr");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
                 quality = jsonObject.getInt("thumbnailQuality");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -143,11 +125,6 @@ public class MediaPicker extends CordovaPlugin {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            try {
-                showProgressDialog = jsonObject.getBoolean("showProgressDialog");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
     }
 
@@ -159,30 +136,24 @@ public class MediaPicker extends CordovaPlugin {
             if(requestCode==200&&resultCode==PickerConfig.RESULT_CODE){
                 final ArrayList<Media> select=intent.getParcelableArrayListExtra(PickerConfig.EXTRA_RESULT);
                 final JSONArray jsonArray=new JSONArray();
-                if(showProgressDialog) {
-                    dialog = ProgressDialog.show(cordova.getActivity(), "", progressDialogStr, false, true);
-                }
+
                 cordova.getThreadPool().execute(new Runnable() {
                     public void run() {
                         try {
+                            int index=0;
                             for(Media media:select){
                                 String path=media.path;
                                 JSONObject object=new JSONObject();
-                                if(showThumbnail){
-                                    object.put("thumbnailBase64",extractThumbnail(path,media.mediaType));
-                                }
                                 object.put("path",path);
                                 object.put("size",media.size);
                                 object.put("uri",Uri.parse(path));
-                                object.put("exifRotate",getBitmapRotate(path));
                                 object.put("name",media.name);
+                                object.put("index",index);
                                 object.put("mediaType",media.mediaType==3?"video":"image");
                                 jsonArray.put(object);
+                                index++;
                             }
                             MediaPicker.this.callback.success(jsonArray);
-                            if(showProgressDialog) {
-                                dialog.dismiss();
-                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -199,28 +170,34 @@ public class MediaPicker extends CordovaPlugin {
         if (args != null && args.length() > 0) {
             try {
                 jsonObject = args.getJSONObject(0);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            String uri= null;
-            int mediatype= 1;
-            try {
-                uri = jsonObject.getString("uri");
-                mediatype = "video".equals(jsonObject.getString("mediaType"))?3:1;
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            callbackContext.success(extractThumbnail(uri,mediatype));
+            try {
+                quality = jsonObject.getInt("thumbnailQuality");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            try {
+                String path =jsonObject.getString("path");
+                jsonObject.put("exifRotate",getBitmapRotate(path));
+                int mediatype = "video".equals(jsonObject.getString("mediaType"))?3:1;
+                String thumbnailBase64=extractThumbnail(path,mediatype,quality);
+                jsonObject.put("thumbnailBase64",thumbnailBase64);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            callbackContext.success(jsonObject);
         }
 
     }
 
-    public  String extractThumbnail(String path,int mediaType) {
+    public  String extractThumbnail(String path,int mediaType,int quality) {
         String encodedImage = null;
         try {
             Bitmap thumbImage;
             if (mediaType == 3) {
-                thumbImage = ThumbnailUtils.createVideoThumbnail(path, MediaStore.Images.Thumbnails.MICRO_KIND);
+                thumbImage = ThumbnailUtils.createVideoThumbnail(path, MediaStore.Images.Thumbnails.MINI_KIND);
             } else {
                 thumbImage = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(path), thumbnailW, thumbnailH);
             }
