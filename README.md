@@ -63,11 +63,15 @@ index.js code:
     };
 
     function err(data){
-        console.log(err);
+        console.log(data);
     }
 
     function loading(){}
-
+    
+    //ios Video transcoding compression to MP4 （use AVAssetExportPresetMediumQuality）
+    document.addEventListener("MediaPicker.CompressVideoEvent", function(data) {
+          alert(data.status+"||"+data.index);
+    }, false);
 
 
 # Screenshots
