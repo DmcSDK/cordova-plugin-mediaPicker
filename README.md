@@ -68,10 +68,12 @@ index.js code:
 
     function loading(){}
     
-    //ios Video transcoding compression to MP4 （use AVAssetExportPresetMediumQuality）
-    document.addEventListener("MediaPicker.CompressVideoEvent", function(data) {
-          alert(data.status+"||"+data.index);
+    //ios Video transcoding compression to MP4 (use AVAssetExportPresetMediumQuality)
+    document.addEventListener("MediaPicker.CompressVideoEvent", function(data) {
+        alert(data.status+"||"+data.index);
     }, false);
+    
+
 
 
 # Screenshots
