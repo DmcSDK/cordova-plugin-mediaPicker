@@ -13,7 +13,10 @@ var MediaPicker = {
 	},
 	extractThumbnail:function(arg0, success, error) {
     	exec(success, error, "MediaPicker", "extractThumbnail", [arg0]);
-	}
+	},
+    compressEvent:function(s,i) {
+        cordova.fireDocumentEvent('MediaPicker.CompressVideoEvent', {'status':s,'index':i});
+    }
 };
 
 module.exports = MediaPicker;
