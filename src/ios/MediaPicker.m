@@ -67,8 +67,8 @@
 
 
     [[PHImageManager defaultManager] requestImageDataForAsset:asset  options:nil resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
-        
-        NSString *fullpath=[NSString stringWithFormat:@"%@/%@.%@", dmcPickerPath,[[NSProcessInfo processInfo] globallyUniqueString], @"jpg"];
+        NSString *filename=[asset valueForKey:@"filename"];
+        NSString *fullpath=[NSString stringWithFormat:@"%@/%@%@", dmcPickerPath,[[NSProcessInfo processInfo] globallyUniqueString], filename];
         NSNumber *size=[NSNumber numberWithInt:imageData.length];
         NSError *error = nil;
         if (![imageData writeToFile:fullpath options:NSAtomicWrite error:&error]) {
