@@ -45,6 +45,11 @@
     }
     
     NSMutableArray * aListArray=[[NSMutableArray alloc] init];
+    if([selectArray count]<=0){
+        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:aListArray] callbackId:callbackId];
+        return;
+    }
+
     dispatch_async(dispatch_get_global_queue (DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         int index=0;
         for(PHAsset *asset in selectArray){
