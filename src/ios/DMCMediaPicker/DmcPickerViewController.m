@@ -28,7 +28,7 @@
     
     [[self view]setBackgroundColor:[UIColor greenColor]];
     UIBarButtonItem *rightButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done",nil) style:UIBarButtonItemStylePlain target:self action:@selector(done)];
-    UIBarButtonItem *leftButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Cancel",nil) style:UIBarButtonItemStylePlain target:self action:@selector(cancel)];
+    UIBarButtonItem *leftButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Cancel",nil) style:UIBarButtonItemStylePlain target:self action:@selector(done)];
     self.navigationItem.rightBarButtonItem = rightButtonItem;
     [self setDoneBtnStatus];
     self.navigationItem.leftBarButtonItem=leftButtonItem;
