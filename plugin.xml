@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-mediapicker-dmcbig" version="2.0.1">
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-mediapicker-dmcbig" version="2.0.8">
   <name>MediaPicker</name>
   <js-module name="MediaPicker" src="www/MediaPicker.js">
     <clobbers target="window.MediaPicker"/>
@@ -18,6 +18,8 @@
     <framework src="com.dmcBig:mediapicker:+"/>
     <source-file src="src/android/MediaPicker.java" target-dir="src/com/dmc/mediaPickerPlugin"/>
   </platform>
+
+
   <platform name="ios">
     <config-file parent="/*" target="config.xml">
       <feature name="MediaPicker">
