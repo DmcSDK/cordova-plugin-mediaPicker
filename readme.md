@@ -30,7 +30,7 @@ index.js code:
 
     var imgs=document.getElementsByName('imgView');
     var args={
-        'selectMode':101,//101=PICKER_IMAGE_VIDEO , 100=PICKER_IMAGE , 102=PICKER_VIDEO
+        'selectMode':101,//101=picker image and video , 100=image , 102=video
         'maxSelectCount':40, //default 40 (Optional)
         'maxSelectSize':188743680,//188743680=180M (Optional)
     };
