@@ -145,14 +145,14 @@
                 
             } else if(exportSession.status == AVAssetExportSessionStatusCompleted){
                 
-               NSLog(@"completed!");
+                NSLog(@"completed!");
                 NSString *compressCompletedjs = [NSString stringWithFormat:@"MediaPicker.compressEvent('%@',%i)", @"completed",index];
                 [self.commandDelegate evalJs:compressCompletedjs];
-                    NSDictionary *dict=[NSDictionary dictionaryWithObjectsAndKeys:fullpath,@"path",@"video",@"mediaType" ,[NSNumber numberWithInt:index],@"index", nil];
-                    [aListArray addObject:dict];
-                    if([aListArray count]==[selectArray count]){
-                        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:aListArray] callbackId:callbackId];
-                    }
+                NSDictionary *dict=[NSDictionary dictionaryWithObjectsAndKeys:fullpath,@"path",@"video",@"mediaType" ,[NSNumber numberWithInt:index],@"index", nil];
+                [aListArray addObject:dict];
+                if([aListArray count]==[selectArray count]){
+                    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:aListArray] callbackId:callbackId];
+                }
             }
             
         }];

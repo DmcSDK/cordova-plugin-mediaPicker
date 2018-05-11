@@ -9,4 +9,5 @@
 @property(nonatomic ,strong)UIImageView *checkView;
 @property(nonatomic ,strong)UILabel *labelL;
 @property(nonatomic ,strong)UILabel *labelR;
+@property(nonatomic ,strong)UILabel *labeGIF;
 @end

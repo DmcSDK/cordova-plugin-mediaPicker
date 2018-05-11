@@ -32,12 +32,28 @@
         self.labelR.backgroundColor= [[UIColor blackColor] colorWithAlphaComponent:0.3f];
 
         
+        self.labeGIF = [[UILabel alloc] initWithFrame:CGRectMake(width-width/5-5, width-labelH-2, width/5, labelH-5)];
+        self.labeGIF.backgroundColor = [UIColor clearColor];
+        self.labeGIF.textColor=[UIColor whiteColor];
+        self.labeGIF.text=@"\tGIF\t";
+        self.labeGIF.layer.cornerRadius =4;
+        self.labeGIF.layer.masksToBounds  =YES;
+        self.labeGIF.textAlignment= NSTextAlignmentCenter;
+        self.labeGIF.baselineAdjustment= UIBaselineAdjustmentAlignCenters;
+        self.labeGIF.font=[UIFont systemFontOfSize:13.0];
+        self.labeGIF.adjustsFontSizeToFitWidth = YES;
+        self.labeGIF.textAlignment=NSTextAlignmentRight;
+        self.labeGIF.backgroundColor= [[UIColor blackColor] colorWithAlphaComponent:0.4f];
         
+        
+
+ 
         [self addSubview:self.imgView];
         [self addSubview:self.whiteView];
         [self addSubview:self.checkView];
         [self addSubview:self.labelL];
         [self addSubview:self.labelR];
+        [self addSubview:self.labeGIF];
         
     }
     return self;

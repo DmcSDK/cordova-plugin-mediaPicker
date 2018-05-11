@@ -28,7 +28,7 @@
     
     [[self view]setBackgroundColor:[UIColor greenColor]];
     UIBarButtonItem *rightButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done",nil) style:UIBarButtonItemStylePlain target:self action:@selector(done)];
-    UIBarButtonItem *leftButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Cancel",nil) style:UIBarButtonItemStylePlain target:self action:@selector(done)];
+    UIBarButtonItem *leftButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Cancel",nil) style:UIBarButtonItemStylePlain target:self action:@selector(cancel)];
     self.navigationItem.rightBarButtonItem = rightButtonItem;
     [self setDoneBtnStatus];
     self.navigationItem.leftBarButtonItem=leftButtonItem;
@@ -163,11 +163,15 @@
     if(asset.mediaType==PHAssetMediaTypeVideo){
         cell.labelL.hidden=NO;
         cell.labelR.hidden=NO;
+        cell.labeGIF.hidden=YES;
         
         NSString *dtime=[NSString stringWithFormat:@"%.0f",asset.duration];
         cell.labelL.text=[@"\t"stringByAppendingString:NSLocalizedString(@"Video",nil)];
         cell.labelR.text=[[self getNewTimeFromDurationSecond:dtime.integerValue]stringByAppendingString:@"\t"];
     }else{
+        NSString *fileName =[asset valueForKey:@"filename"];
+        NSString * fileExtension = [fileName pathExtension];
+        cell.labeGIF.hidden=[@"GIF" caseInsensitiveCompare:fileExtension]?YES:NO;
         cell.labelL.hidden=YES;
         cell.labelR.hidden=YES;
     }
@@ -183,7 +187,7 @@
 
 //UICollectionView被选中时调用的方法
 -( void )collectionView:( UICollectionView *)collectionView didSelectItemAtIndexPath:( NSIndexPath *)indexPath{
-    NSLog(@"%ld",(long)indexPath.row);
+
     PHAsset * asset=fetchResult[indexPath.row];
     NSInteger i=[self isSelect:asset];
     CollectionViewCell *cell = (CollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
