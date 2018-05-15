@@ -224,6 +224,45 @@
     [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:options] callbackId:callbackId];
 }
 
+- (void)compressImage:(CDVInvokedUrlCommand*)command
+{
+    callbackId=command.callbackId;
+    NSMutableDictionary *options = [command.arguments objectAtIndex: 0];
+
+    NSInteger quality=[[options objectForKey:@"thumbnailQuality"] integerValue];
+    if(quality<100&&[@"image" isEqualToString: [options objectForKey:@"mediaType"]]){
+        UIImage *result = [[UIImage alloc] initWithContentsOfFile: [options objectForKey:@"path"]];
+        NSInteger qu = quality>0?quality:3;
+        CGFloat q=qu/100.0f;
+        NSData *data =UIImageJPEGRepresentation(result,q);
+        NSString*timeString = [NSString stringWithFormat:@"%0.f", [[NSDate dateWithTimeIntervalSinceNow:0] timeIntervalSince1970]];
+        NSString *filename=[NSString stringWithFormat:@"dmcMediaPickerCompress", timeString,@".jpg"];
+        NSString *fullpath=[NSString stringWithFormat:@"%@/%@", dmcPickerPath,filename];
+        NSUInteger size=data.length;
+        NSError *error = nil;
+        if (![data writeToFile:fullpath options:NSAtomicWrite error:&error]) {
+            NSLog(@"%@", [error localizedDescription]);
+            [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[error localizedDescription]] callbackId:callbackId];
+        } else {
+            [options setObject:fullpath forKey:@"path"];
+            [options setObject:size forKey:@"size"];
+            [options setObject:filename forKey:@"name"];
+            [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:options] callbackId:callbackId];
+        }        
+        
+    }else{
+        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:options] callbackId:callbackId];
+    }
+}
+
+-(void)fileToBlob:(CDVInvokedUrlCommand*)command
+{
+    callbackId=command.callbackId;
+    NSMutableDictionary *options = [command.arguments objectAtIndex: 0];
+    UIImage *result =[NSData dataWithContentsOfFile:[options objectForKey:@"path"]]; 
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArrayBuffer:result]callbackId:command.callbackId];
+}
+
 -(int)getOrientation:(UIImage *)image{
     switch (image.imageOrientation) {
         case UIImageOrientationDown:

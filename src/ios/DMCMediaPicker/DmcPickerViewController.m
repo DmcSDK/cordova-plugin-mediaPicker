@@ -43,6 +43,7 @@
 }
 
 -(void) cancel{
+    [self._delegate resultPicker:selectArray];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
