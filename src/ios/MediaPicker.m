@@ -229,13 +229,18 @@
     callbackId=command.callbackId;
     NSMutableDictionary *options = [command.arguments objectAtIndex: 0];
 
-    NSInteger quality=[[options objectForKey:@"thumbnailQuality"] integerValue];
+    NSInteger quality=[[options objectForKey:@"quality"] integerValue];
     if(quality<100&&[@"image" isEqualToString: [options objectForKey:@"mediaType"]]){
         UIImage *result = [[UIImage alloc] initWithContentsOfFile: [options objectForKey:@"path"]];
         NSInteger qu = quality>0?quality:3;
         CGFloat q=qu/100.0f;
         NSData *data =UIImageJPEGRepresentation(result,q);
         NSString*timeString = [NSString stringWithFormat:@"%0.f", [[NSDate dateWithTimeIntervalSinceNow:0] timeIntervalSince1970]];
+        NSString *dmcPickerPath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"dmcPicker"];
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        if(![fileManager fileExistsAtPath:dmcPickerPath ]){
+           [fileManager createDirectoryAtPath:dmcPickerPath withIntermediateDirectories:YES attributes:nil error:nil];
+        }
         NSString *filename=[NSString stringWithFormat:@"dmcMediaPickerCompress", timeString,@".jpg"];
         NSString *fullpath=[NSString stringWithFormat:@"%@/%@", dmcPickerPath,filename];
         NSUInteger size=data.length;
