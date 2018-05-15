@@ -1,6 +1,7 @@
 package com.dmc.mediaPickerPlugin;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -23,7 +24,9 @@ import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -33,7 +36,8 @@ import java.util.ArrayList;
  */
 public class MediaPicker extends CordovaPlugin {
     private  CallbackContext callback;
-    private  int quality=50;
+    private  int thumbnailQuality=50;
+    private  int quality=100;//default original
     private  int thumbnailW=200;
     private  int thumbnailH=200;
     @Override
@@ -51,6 +55,12 @@ public class MediaPicker extends CordovaPlugin {
             return true;
         }else if(action.equals("extractThumbnail")){
             this.extractThumbnail(args, callbackContext);
+            return true;
+        }else if(action.equals("compressImage")){
+            this.compressImage(args, callbackContext);
+            return true;
+        }else if(action.equals("fileToBlob")){
+            this.fileToBlob(args.getString(0), callbackContext);
             return true;
         }
         return false;
@@ -111,7 +121,7 @@ public class MediaPicker extends CordovaPlugin {
                 e.printStackTrace();
             }
             try {
-                quality = jsonObject.getInt("thumbnailQuality");
+                thumbnailQuality = jsonObject.getInt("thumbnailQuality");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -122,6 +132,11 @@ public class MediaPicker extends CordovaPlugin {
             }
             try {
                 thumbnailH = jsonObject.getInt("thumbnailH");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                quality = jsonObject.getInt("quality");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -142,11 +157,13 @@ public class MediaPicker extends CordovaPlugin {
                         try {
                             int index=0;
                             for(Media media:select){
-                                String path=media.path;
+                                if(quality<100){
+                                    media=compressImage(media);
+                                }
                                 JSONObject object=new JSONObject();
-                                object.put("path",path);
+                                object.put("path",media.path);
+                                object.put("uri",Uri.parse(media.path));
                                 object.put("size",media.size);
-                                object.put("uri",Uri.parse(path));
                                 object.put("name",media.name);
                                 object.put("index",index);
                                 object.put("mediaType",media.mediaType==3?"video":"image");
@@ -174,7 +191,7 @@ public class MediaPicker extends CordovaPlugin {
                 e.printStackTrace();
             }
             try {
-                quality = jsonObject.getInt("thumbnailQuality");
+                thumbnailQuality = jsonObject.getInt("thumbnailQuality");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -182,14 +199,12 @@ public class MediaPicker extends CordovaPlugin {
                 String path =jsonObject.getString("path");
                 jsonObject.put("exifRotate",getBitmapRotate(path));
                 int mediatype = "video".equals(jsonObject.getString("mediaType"))?3:1;
-                String thumbnailBase64=extractThumbnail(path,mediatype,quality);
-                jsonObject.put("thumbnailBase64",thumbnailBase64);
+                jsonObject.put("thumbnailBase64",extractThumbnail(path,mediatype,thumbnailQuality));
             } catch (Exception e) {
                 e.printStackTrace();
             }
             callbackContext.success(jsonObject);
         }
-
     }
 
     public  String extractThumbnail(String path,int mediaType,int quality) {
@@ -212,22 +227,54 @@ public class MediaPicker extends CordovaPlugin {
         return encodedImage;
     }
 
-    public static String fileToBase64(String path,int mediaType) {
-        byte[] data = null;
-        try {
-            BufferedInputStream in = new BufferedInputStream(new FileInputStream(path));
-            data = new byte[in.available()];
-            in.read(data);
-            in.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return Base64.encodeToString(data, Base64.DEFAULT);
+
+    public Media  compressImage(Media media){
+        File file=compressImage(media.path,quality);
+        media.path=file.getPath();
+        media.name=file.getName();
+        media.size=file.length();
+        return  media;
     }
 
+    public void  compressImage( JSONArray args, CallbackContext callbackContext){
+        this.callback=callbackContext;
+            try {
+                JSONObject jsonObject = args.getJSONObject(0);
+                String path = jsonObject.getString("path");
+                int quality=jsonObject.getInt("quality");
+                if(quality<100) {
+                    File file = compressImage(path, quality);
+                    jsonObject.put("path", file.getPath());
+                    jsonObject.put("size", file.length());
+                    jsonObject.put("name", file.getName());
+                    callbackContext.success(jsonObject);
+                }else{
+                    callbackContext.success(jsonObject);
+                }
+            } catch (Exception e) {
+                callbackContext.error("compressImage error"+e);
+                e.printStackTrace();
+            }
+    }
 
+    public File compressImage(String path,int quality){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        String compFileName="dmcMediaPickerCompress"+System.currentTimeMillis()+".jpg";
+        File file= new File(cordova.getActivity().getExternalCacheDir(),compFileName);
+        BitmapFactory.decodeFile(path).compress(Bitmap.CompressFormat.JPEG, quality, baos);
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(baos.toByteArray());
+            fos.flush();
+            fos.close();
+        } catch (Exception e) {
+            MediaPicker.this.callback.error("compressImage error"+e);
+            e.printStackTrace();
+        }
+        return  file;
+    }
 
-    public static int getBitmapRotate(String path) {
+    public  int getBitmapRotate(String path) {
         int degree = 0;
         try {
             ExifInterface exifInterface = new ExifInterface(path);
@@ -249,4 +296,50 @@ public class MediaPicker extends CordovaPlugin {
         return degree;
     }
 
+
+
+    public  byte[] extractThumbnailByte(String path,int mediaType,int quality) {
+
+        try {
+            Bitmap thumbImage;
+            if (mediaType == 3) {
+                thumbImage = ThumbnailUtils.createVideoThumbnail(path, MediaStore.Images.Thumbnails.MINI_KIND);
+            } else {
+                thumbImage = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(path), thumbnailW, thumbnailH);
+            }
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            thumbImage.compress(Bitmap.CompressFormat.JPEG, quality, baos);
+            return baos.toByteArray();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public  String fileToBase64(String path) {
+        byte[] data = null;
+        try {
+            BufferedInputStream in = new BufferedInputStream(new FileInputStream(path));
+            data = new byte[in.available()];
+            in.read(data);
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return Base64.encodeToString(data, Base64.DEFAULT);
+    }
+
+    public  void fileToBlob(String path, CallbackContext callbackContext) {
+        byte[] data = null;
+        try {
+            BufferedInputStream in = new BufferedInputStream(new FileInputStream(path));
+            data = new byte[in.available()];
+            in.read(data);
+            in.close();
+        } catch (IOException e) {
+            callbackContext.error("fileToBlob "+e);
+            e.printStackTrace();
+        }
+        callbackContext.success(data);
+    }
 }

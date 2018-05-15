@@ -14,6 +14,7 @@
     <config-file parent="/*" target="AndroidManifest.xml"/>
     <config-file parent="/manifest" target="AndroidManifest.xml">
       <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+      <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="18"/>
     </config-file>
     <framework src="com.dmcBig:mediapicker:+"/>
     <source-file src="src/android/MediaPicker.java" target-dir="src/com/dmc/mediaPickerPlugin"/>
