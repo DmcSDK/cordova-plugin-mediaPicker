@@ -1,4 +1,3 @@
-cordova.define("cordova-plugin-mediapicker-dmcbig.MediaPicker", function(require, exports, module) {
 var exec = require('cordova/exec');
 
 
@@ -28,4 +27,4 @@ var MediaPicker = {
 
 module.exports = MediaPicker;
 
-});
+
