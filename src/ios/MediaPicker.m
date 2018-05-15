@@ -74,7 +74,7 @@
     [[PHImageManager defaultManager] requestImageDataForAsset:asset  options:nil resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
         NSString *filename=[asset valueForKey:@"filename"];
         NSString *fullpath=[NSString stringWithFormat:@"%@/%@%@", dmcPickerPath,[[NSProcessInfo processInfo] globallyUniqueString], filename];
-        NSNumber *size=[NSNumber numberWithInt:imageData.length];
+        NSNumber *size=[NSNumber numberWithLong:imageData.length];
         NSError *error = nil;
         if (![imageData writeToFile:fullpath options:NSAtomicWrite error:&error]) {
             NSLog(@"%@", [error localizedDescription]);
@@ -103,7 +103,7 @@
             NSString *fullpath=[NSString stringWithFormat:@"%@/%@", dmcPickerPath,filename];
             NSLog(@"%@", urlAsset.URL);
             NSData *data = [NSData dataWithContentsOfURL:urlAsset.URL options:NSDataReadingUncached error:nil];
-            NSUInteger size=data.length;
+            NSNumber* size=[NSNumber numberWithLong: data.length];
             NSError *error = nil;
             if (![data writeToFile:fullpath options:NSAtomicWrite error:&error]) {
                 NSLog(@"%@", [error localizedDescription]);
@@ -241,9 +241,9 @@
         if(![fileManager fileExistsAtPath:dmcPickerPath ]){
            [fileManager createDirectoryAtPath:dmcPickerPath withIntermediateDirectories:YES attributes:nil error:nil];
         }
-        NSString *filename=[NSString stringWithFormat:@"dmcMediaPickerCompress", timeString,@".jpg"];
+        NSString *filename=[NSString stringWithFormat:@"%@%@%@",@"dmcMediaPickerCompress", timeString,@".jpg"];
         NSString *fullpath=[NSString stringWithFormat:@"%@/%@", dmcPickerPath,filename];
-        NSUInteger size=data.length;
+        NSNumber* size=[NSNumber numberWithLong: data.length];
         NSError *error = nil;
         if (![data writeToFile:fullpath options:NSAtomicWrite error:&error]) {
             NSLog(@"%@", [error localizedDescription]);
@@ -263,8 +263,7 @@
 -(void)fileToBlob:(CDVInvokedUrlCommand*)command
 {
     callbackId=command.callbackId;
-    NSMutableDictionary *options = [command.arguments objectAtIndex: 0];
-    UIImage *result =[NSData dataWithContentsOfFile:[options objectForKey:@"path"]]; 
+    NSData *result =[NSData dataWithContentsOfFile:[command.arguments objectAtIndex: 0]];
     [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArrayBuffer:result]callbackId:command.callbackId];
 }
 
