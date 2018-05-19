@@ -157,9 +157,6 @@ public class MediaPicker extends CordovaPlugin {
                         try {
                             int index=0;
                             for(Media media:select){
-                                if(quality<100){
-                                    media=compressImage(media);
-                                }
                                 JSONObject object=new JSONObject();
                                 object.put("path",media.path);
                                 object.put("uri",Uri.parse(media.path));
