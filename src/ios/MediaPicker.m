@@ -235,13 +235,12 @@
         NSInteger qu = quality>0?quality:3;
         CGFloat q=qu/100.0f;
         NSData *data =UIImageJPEGRepresentation(result,q);
-        NSString*timeString = [NSString stringWithFormat:@"%0.f", [[NSDate dateWithTimeIntervalSinceNow:0] timeIntervalSince1970]];
         NSString *dmcPickerPath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"dmcPicker"];
         NSFileManager *fileManager = [NSFileManager defaultManager];
         if(![fileManager fileExistsAtPath:dmcPickerPath ]){
            [fileManager createDirectoryAtPath:dmcPickerPath withIntermediateDirectories:YES attributes:nil error:nil];
         }
-        NSString *filename=[NSString stringWithFormat:@"%@%@%@",@"dmcMediaPickerCompress", timeString,@".jpg"];
+        NSString *filename=[NSString stringWithFormat:@"%@%@%@",@"dmcMediaPickerCompress", [self currentTimeStr],@".jpg"];
         NSString *fullpath=[NSString stringWithFormat:@"%@/%@", dmcPickerPath,filename];
         NSNumber* size=[NSNumber numberWithLong: data.length];
         NSError *error = nil;
@@ -259,6 +258,15 @@
         [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:options] callbackId:callbackId];
     }
 }
+
+//获取当前时间戳
+- (NSString *)currentTimeStr{
+    NSDate* date = [NSDate dateWithTimeIntervalSinceNow:0];//获取当前时间0秒后的时间
+    NSTimeInterval time=[date timeIntervalSince1970]*1000;// *1000 是精确到毫秒，不乘就是精确到秒
+    NSString *timeString = [NSString stringWithFormat:@"%.0f", time];
+    return timeString;
+}
+
 
 -(void)fileToBlob:(CDVInvokedUrlCommand*)command
 {
