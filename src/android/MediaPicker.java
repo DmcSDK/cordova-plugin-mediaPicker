@@ -224,15 +224,6 @@ public class MediaPicker extends CordovaPlugin {
         return encodedImage;
     }
 
-
-    public Media  compressImage(Media media){
-        File file=compressImage(media.path,quality);
-        media.path=file.getPath();
-        media.name=file.getName();
-        media.size=file.length();
-        return  media;
-    }
-
     public void  compressImage( JSONArray args, CallbackContext callbackContext){
         this.callback=callbackContext;
             try {
