@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.media.ThumbnailUtils;
 import android.provider.MediaStore;
@@ -249,7 +250,7 @@ public class MediaPicker extends CordovaPlugin {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         String compFileName="dmcMediaPickerCompress"+System.currentTimeMillis()+".jpg";
         File file= new File(cordova.getActivity().getExternalCacheDir(),compFileName);
-        BitmapFactory.decodeFile(path).compress(Bitmap.CompressFormat.JPEG, quality, baos);
+        rotatingImage(getBitmapRotate(path),BitmapFactory.decodeFile(path)).compress(Bitmap.CompressFormat.JPEG, quality, baos);
         try {
             FileOutputStream fos = new FileOutputStream(file);
             fos.write(baos.toByteArray());
@@ -284,6 +285,15 @@ public class MediaPicker extends CordovaPlugin {
         return degree;
     }
 
+    private static Bitmap rotatingImage(int angle, Bitmap bitmap) {
+        //rotate image
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+
+        //create a new image
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix,
+                true);
+    }
 
 
     public  byte[] extractThumbnailByte(String path,int mediaType,int quality) {

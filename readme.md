@@ -1,5 +1,6 @@
-# MediaPicker v:2.1.1
+# MediaPicker v:2.1.5
 android ios mediaPicker support  selection of multiple image and video 
+[GitHub:](https://github.com/dmcBig/cordova-plugin-mediaPicker) https://github.com/dmcBig/cordova-plugin-mediaPicker
 
 How do I use?
 -------------------
