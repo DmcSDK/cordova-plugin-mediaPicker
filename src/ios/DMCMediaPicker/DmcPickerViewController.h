@@ -1,11 +1,12 @@
 
 #import <UIKit/UIKit.h>
 #import <Photos/Photos.h>
+#import "PreviewViewController.h"
 @protocol DmcPickerDelegate<NSObject>
 -(void) resultPicker:(NSMutableArray*) selectArray;
 @end
 
-@interface DmcPickerViewController : UIViewController <UICollectionViewDataSource,UICollectionViewDelegate>{
+@interface DmcPickerViewController : UIViewController <UICollectionViewDataSource,UICollectionViewDelegate,DmcPreviewDelegate>{
     NSMutableArray *_cellArray;     //collectionView数据
     PHFetchResult * fetchResult;
     NSMutableArray *selectArray;

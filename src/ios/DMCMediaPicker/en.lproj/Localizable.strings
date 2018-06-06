@@ -1,9 +1,10 @@
 "Cancel"="Cancel";
 "Done"="Done";
-"all"="all";
+"All"="All photos";
 "Video"="Video";
 "maxSelectAlert"="Has reached the maximum number of choices";
 "ok"="OK";
 "Unable to access album" = "Unable to access album";
 "Please allow to access your album" = "Please allow to access your album in \"Settings -> Privacy -> Album\"";
 "Setting" = "Setting";
+"Preview" = "Preview";

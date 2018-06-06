@@ -32,6 +32,15 @@
     <source-file src="src/ios/DMCMediaPicker/CollectionViewCell.m"/>
     <header-file src="src/ios/DMCMediaPicker/DmcPickerViewController.h" />
     <source-file src="src/ios/DMCMediaPicker/DmcPickerViewController.m"/>
+    <header-file src="src/ios/DMCMediaPicker/PreviewCell.h" />
+    <source-file src="src/ios/DMCMediaPicker/PreviewCell.m"/>
+    <header-file src="src/ios/DMCMediaPicker/PreviewViewController.h" />
+    <source-file src="src/ios/DMCMediaPicker/PreviewViewController.m"/>  
+
+    <header-file src="src/ios/DMCMediaPicker/FLAnimatedImage/FLAnimatedImage.h" />
+    <source-file src="src/ios/DMCMediaPicker/FLAnimatedImage/FLAnimatedImage.m"/>   
+    <header-file src="src/ios/DMCMediaPicker/FLAnimatedImage/FLAnimatedImageView.h" />
+    <source-file src="src/ios/DMCMediaPicker/FLAnimatedImage/FLAnimatedImageView.m"/>         
 
     <resource-file src="src/ios/DMCMediaPicker/dmcPicker.bundle"/>
     <resource-file src="src/ios/DMCMediaPicker/en.lproj"/>
