@@ -3,7 +3,7 @@ android ios mediaPicker support  selection of multiple image and video </br>
 
 [GitHub:](https://github.com/dmcBig/cordova-plugin-mediaPicker) https://github.com/dmcBig/cordova-plugin-mediaPicker</br>
 
-
+<font color="#660000">IOS please use XCode 9</font></br> 
 
 How do I use?
 -------------------
