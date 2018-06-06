@@ -136,7 +136,7 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    __weak typeof(self) weakSelf = self;
+    __weak PreviewViewController* weakSelf = self;
     static NSString *identify = @"cell";
     PreviewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:identify forIndexPath:indexPath];
     PHAsset *asset=_preArray[indexPath.item];//访问已释放的对象
