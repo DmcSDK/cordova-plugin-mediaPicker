@@ -152,7 +152,8 @@
 }
     
 -(void) cancel{
-    [self._delegate resultPicker:selectArray];
+    NSMutableArray *nilArray=[[NSMutableArray alloc] init];
+    [self._delegate resultPicker:nilArray];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
     
