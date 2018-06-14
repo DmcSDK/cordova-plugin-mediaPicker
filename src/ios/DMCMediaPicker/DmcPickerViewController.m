@@ -3,13 +3,22 @@
 #import "DmcPickerViewController.h"
 #import "CollectionViewCell.h"
 #import "PreviewViewController.h"
+#import "AlbumListView.h"
 #import <Photos/Photos.h>
 #define fDeviceWidth ([UIScreen mainScreen].bounds.size.width)  //设备高度的宏
 #define fDeviceHeight ([UIScreen mainScreen].bounds.size.height)
 @interface DmcPickerViewController (){
      UIBarButtonItem *preview;
      int litemCount;
-    UICollectionViewFlowLayout *flowLayout ;
+     UICollectionViewFlowLayout *flowLayout ;
+     UILabel * titleNameLabel;
+     UIView * titleView;
+     UIButton * titleArrow;
+     UIView * darkView;
+     AlbumListView *albumlistView;
+     NSMutableArray  *albumsTitlelist;
+     NSMutableArray  * dataSource;
+     NSInteger* nowSelectAlbum;
 }
 
 @property (strong, nonatomic) PHImageManager *manager;
@@ -29,12 +38,14 @@
 }
     
 -(void)initView{
+    self.view.backgroundColor=[UIColor whiteColor];
     UIBarButtonItem *rightButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done",nil) style:UIBarButtonItemStylePlain target:self action:@selector(done)];
     UIBarButtonItem *leftButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Cancel",nil) style:UIBarButtonItemStylePlain target:self action:@selector(cancel)];
     self.navigationItem.rightBarButtonItem = rightButtonItem;
-    
     self.navigationItem.leftBarButtonItem=leftButtonItem;
-    self.navigationItem.title=NSLocalizedString(@"All",nil);
+    
+    
+    //[self setTitleView:self.selectMode==102?NSLocalizedString(@"Video",nil):NSLocalizedString(@"All",nil)];
     
     //bottom bar
     [self.navigationController  setToolbarHidden:NO animated:YES];
@@ -43,6 +54,90 @@
     [self setBtnStatus];
     [self.view addSubview:self.collectionView];
 }
+
+-(void)setTitleView:(NSString *) title{
+
+    float arrowHeight=self.navigationController.navigationBar.frame.size.height/3;
+    if(!titleNameLabel){
+        titleNameLabel=[[UILabel alloc]initWithFrame:CGRectMake(0, 0, 0, self.navigationController.navigationBar.frame.size.height)];
+        titleNameLabel.textColor=[UIColor blackColor];
+        titleNameLabel.font=[UIFont systemFontOfSize:17.5];
+        titleNameLabel.text=title;
+        [titleNameLabel sizeToFit];
+        titleView=[[UIView alloc]init];
+        
+        titleNameLabel.center=CGPointMake(titleNameLabel.bounds.size.width/2,titleView.bounds.size.height/2);
+        [titleView addSubview:titleNameLabel];
+        
+        titleArrow=[UIButton buttonWithType:UIButtonTypeCustom];
+        titleArrow.frame=CGRectMake(titleNameLabel.frame.size.width+2, 0, arrowHeight, arrowHeight);
+        titleArrow.userInteractionEnabled=NO;
+        [titleArrow setImage:[UIImage imageNamed:@"dmcPicker.bundle/down_arrow.png"] forState:UIControlStateNormal];
+        [titleArrow setImage:[UIImage imageNamed:@"dmcPicker.bundle/up_arrow.png"] forState:UIControlStateSelected];
+        [titleView addSubview:titleArrow];
+        titleArrow.center=CGPointMake(titleNameLabel.frame.size.width+arrowHeight/2+2,titleView.bounds.size.height/2);
+        
+        //添加点击手势
+        UITapGestureRecognizer * tapGesture=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(titleTap:)];
+        [titleView addGestureRecognizer:tapGesture];
+        self.navigationItem.titleView=titleView;
+    }
+    titleNameLabel.text=title;
+    [titleNameLabel sizeToFit];
+
+    titleView.frame=CGRectMake(0, 0, titleNameLabel.frame.size.width+arrowHeight+2, self.navigationController.navigationBar.frame.size.height);
+    titleNameLabel.center=CGPointMake(titleNameLabel.bounds.size.width/2,titleView.bounds.size.height/2);
+    titleArrow.frame=CGRectMake(titleNameLabel.frame.size.width+2, 0, arrowHeight, arrowHeight);
+    titleArrow.center=CGPointMake(titleNameLabel.frame.size.width+arrowHeight/2+2,titleView.bounds.size.height/2);
+}
+
+- (void)titleTap:(UITapGestureRecognizer *)tap {
+
+    if(!albumlistView){
+        CGFloat y=self.navigationController.navigationBar.frame.origin.y+self.navigationController.navigationBar.frame.size.height;
+        darkView=[[UIView alloc]initWithFrame:CGRectMake(0, y, self.navigationController.navigationBar.frame.size.width, fDeviceHeight)];
+        darkView.backgroundColor=[[UIColor blackColor] colorWithAlphaComponent:0.4f];
+        UITapGestureRecognizer * tapGesture=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(darkViewTap:)];
+        [darkView addGestureRecognizer:tapGesture];
+        [self.view addSubview:darkView];
+        albumlistView=[[AlbumListView alloc]initWithFrame:CGRectMake(0, y, self.navigationController.navigationBar.frame.size.width, fDeviceHeight*0.6)];
+        [albumlistView setListDataSource:dataSource dataNameSource:albumsTitlelist nowSelectAlbum:nowSelectAlbum];
+        __weak DmcPickerViewController* weakSelf = self;
+        //设置选择相册之后的block回调
+        [albumlistView setDidSelectAlbumBlock:^(NSInteger *index) {
+            
+            [weakSelf show:index];
+            
+        }];
+        [self.view addSubview:albumlistView];
+        titleArrow.selected=YES;
+//        albumlist.transform = CGAffineTransformScale(CGAffineTransformIdentity,self.navigationController.navigationBar.frame.size.width, CGFLOAT_MIN);
+//        [UIView animateWithDuration:0.8 animations:^{
+//            albumlist.transform =  CGAffineTransformScale(CGAffineTransformIdentity,self.navigationController.navigationBar.frame.size.width, 1.0);
+//        }];
+//        self.navigationController.toolbar.alpha=0.4;
+        [self.navigationController  setToolbarHidden:YES  animated:YES];
+        
+    }else{
+        [self hiddenAlbumlistView];
+    }
+}
+
+- (void)darkViewTap:(UITapGestureRecognizer *)tap {
+    darkView.hidden=YES;
+    [self hiddenAlbumlistView];
+}
+
+
+-(void)hiddenAlbumlistView{
+    titleArrow.selected=NO;
+    [darkView setHidden:YES];
+    [albumlistView setHidden:YES];
+    albumlistView=nil;
+    darkView=nil;
+    [self.navigationController  setToolbarHidden:NO  animated:YES];
+}
+
     
 -(void) preview{
     PreviewViewController * dmc=[[PreviewViewController alloc] init];
@@ -86,8 +181,19 @@
 -(void) getAlassetData{
     
     selectArray=[[NSMutableArray alloc] init];
+    albumsTitlelist=[[NSMutableArray alloc] init];
+    dataSource=[[NSMutableArray alloc] init];
+   
     
-    // 获取所有资源的集合，并按资源的创建时间排序
+    //获取相册
+    PHFetchResult *smartAlbums = [PHAssetCollection       fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum
+                                                                                subtype:PHAssetCollectionSubtypeAlbumRegular options:nil];
+    PHFetchResult *syncedAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum
+                                                                           subtype:PHAssetCollectionSubtypeAlbumSyncedAlbum options:nil];
+    PHFetchResult *userCollections = [PHCollectionList fetchTopLevelUserCollectionsWithOptions:nil];
+    
+    NSArray *collectionsFetchResults = @[smartAlbums, userCollections, syncedAlbums];
+    
     PHFetchOptions *options = [[PHFetchOptions alloc] init];
     options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO]];
     if(self.selectMode==100){
@@ -95,12 +201,32 @@
     }else if(self.selectMode==102){
         options.predicate = [NSPredicate predicateWithFormat:@"mediaType == %ld", PHAssetMediaTypeVideo];
     }
-    fetchResult = [PHAsset fetchAssetsWithOptions:options];
-    
+    for (int i = 0; i < collectionsFetchResults.count; i ++) {
+        PHFetchResult *fetchResult = collectionsFetchResults[i];
+        for (int x = 0; x < fetchResult.count; x ++) {
+            PHAssetCollection *collection = fetchResult[x];
+            PHFetchResult *group = [PHAsset fetchAssetsInAssetCollection:collection options:options];
+            if([group count]>0){
+                [albumsTitlelist addObject:collection.localizedTitle];
+                [dataSource addObject:group];
+            }
+        }
+    }
+
     _manager = [PHImageManager defaultManager];
-    
-    [_collectionView reloadData];
+    [self show:0];
 }
+
+-(void)show:(NSInteger *)index{
+    fetchResult = dataSource[(int)index];
+    [self setTitleView:albumsTitlelist[(int)index]];
+    [_collectionView reloadData];
+    [self hiddenAlbumlistView];
+    [_collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]  atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
+    nowSelectAlbum=index;
+}
+
+
 // TO DO
 //- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
 //
@@ -173,54 +299,54 @@
 #pragma mark - UICollectionView delegate dataSource
 #pragma mark 定义展示的UICollectionViewCell的个数
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
-    {
-        return fetchResult.count;
-    }
+{
+    return fetchResult.count;
+}
     
 #pragma mark 定义展示的Section的个数
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
-    {
-        return 1;
-    }
+{
+    return 1;
+}
     
 #pragma mark 每个UICollectionView展示的内容
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
-    {
-        static NSString *identify = @"cell";
-        CollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:identify forIndexPath:indexPath];
-        [cell sizeToFit];
-        PHAsset *asset=fetchResult[indexPath.item];
-        [_manager requestImageForAsset:asset
-                            targetSize:CGSizeMake(200 , 200)
-                           contentMode:PHImageContentModeAspectFill
-                               options:nil
-                         resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
-                             cell.imgView.image = result;
-                         }];
-        NSInteger i=[self isSelect:asset];
-        if(asset.mediaType==PHAssetMediaTypeVideo){
-            cell.labelL.hidden=NO;
-            cell.labelR.hidden=NO;
-            cell.labeGIF.hidden=YES;
-            
-            NSString *dtime=[NSString stringWithFormat:@"%.0f",asset.duration];
-            cell.labelL.text=[@"\t"stringByAppendingString:NSLocalizedString(@"Video",nil)];
-            cell.labelR.text=[[self getNewTimeFromDurationSecond:dtime.integerValue]stringByAppendingString:@"\t"];
-        }else{
-            NSString *fileName =[asset valueForKey:@"filename"];
-            NSString * fileExtension = [fileName pathExtension];
-            cell.labeGIF.hidden=[@"GIF" caseInsensitiveCompare:fileExtension]?YES:NO;
-            cell.labelL.hidden=YES;
-            cell.labelR.hidden=YES;
-        }
+{
+    static NSString *identify = @"cell";
+    CollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:identify forIndexPath:indexPath];
+    [cell sizeToFit];
+    PHAsset *asset=fetchResult[indexPath.item];
+    [_manager requestImageForAsset:asset
+                        targetSize:CGSizeMake(200 , 200)
+                       contentMode:PHImageContentModeAspectFill
+                           options:nil
+                     resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+                         cell.imgView.image = result;
+                     }];
+    NSInteger i=[self isSelect:asset];
+    if(asset.mediaType==PHAssetMediaTypeVideo){
+        cell.labelL.hidden=NO;
+        cell.labelR.hidden=NO;
+        cell.labeGIF.hidden=YES;
         
-        if(i<0){
-            [self hidenSelectView:cell];
-        }else{
-            [self showSelectView:cell];
-        }
-        return cell;
+        NSString *dtime=[NSString stringWithFormat:@"%.0f",asset.duration];
+        cell.labelL.text=[@"\t"stringByAppendingString:NSLocalizedString(@"Video",nil)];
+        cell.labelR.text=[[self getNewTimeFromDurationSecond:dtime.integerValue]stringByAppendingString:@"\t"];
+    }else{
+        NSString *fileName =[asset valueForKey:@"filename"];
+        NSString * fileExtension = [fileName pathExtension];
+        cell.labeGIF.hidden=[@"GIF" caseInsensitiveCompare:fileExtension]?YES:NO;
+        cell.labelL.hidden=YES;
+        cell.labelR.hidden=YES;
     }
+    
+    if(i<0){
+        [self hidenSelectView:cell];
+    }else{
+        [self showSelectView:cell];
+    }
+    return cell;
+}
     
     
     //UICollectionView被选中时调用的方法
@@ -328,5 +454,4 @@
     return newTime;
 }
 
-
-    @end
+@end
