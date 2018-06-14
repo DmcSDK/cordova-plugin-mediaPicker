@@ -36,6 +36,8 @@
     <source-file src="src/ios/DMCMediaPicker/PreviewCell.m"/>
     <header-file src="src/ios/DMCMediaPicker/PreviewViewController.h" />
     <source-file src="src/ios/DMCMediaPicker/PreviewViewController.m"/>  
+    <header-file src="src/ios/DMCMediaPicker/AlbumListView.h" />
+    <source-file src="src/ios/DMCMediaPicker/AlbumListView.m"/>  
 
     <header-file src="src/ios/DMCMediaPicker/FLAnimatedImage/FLAnimatedImage.h" />
     <source-file src="src/ios/DMCMediaPicker/FLAnimatedImage/FLAnimatedImage.m"/>   
