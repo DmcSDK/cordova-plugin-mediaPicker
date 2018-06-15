@@ -10,7 +10,7 @@ How do I use?
 use npm:
 
 ```npm
-  cordova plugin add cordova-plugin-mediapicker-dmcbig
+  cordova plugin add cordova-plugin-mediapicker-dmcbig --variable IOS_PhotoLibraryUsageDescription="your usage message"
 ```
 <font color="#660000">IOS: please use XCode 9</font></br> 
 
