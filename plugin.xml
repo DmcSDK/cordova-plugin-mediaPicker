@@ -52,7 +52,7 @@
     <resource-file src="src/ios/DMCMediaPicker/zh-Hans.lproj"/>
 
     <config-file target="*-Info.plist" parent="NSPhotoLibraryUsageDescription">
-      <string>$PhotoLibraryUsageDescription</string>
+      <string>$IOS_PhotoLibraryUsageDescription</string>
     </config-file>  
   </platform>
 </plugin>
