@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-mediapicker-dmcbig" version="2.2.0">
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-mediapicker-dmcbig" version="2.2.2">
   <name>MediaPicker</name>
   <js-module name="MediaPicker" src="www/MediaPicker.js">
     <clobbers target="window.MediaPicker"/>
   </js-module>
 
-  <preference name="IOS_PhotoLibraryUsageDescription" />
+  <preference name="IOS_PHOTO_LIBRARY_USAGE_DESCRIPTION" />
 
   <platform name="android">
     <config-file parent="/*" target="res/xml/config.xml">
@@ -52,7 +52,7 @@
     <resource-file src="src/ios/DMCMediaPicker/zh-Hans.lproj"/>
 
     <config-file target="*-Info.plist" parent="NSPhotoLibraryUsageDescription">
-      <string>$IOS_PhotoLibraryUsageDescription</string>
+      <string>$IOS_PHOTO_LIBRARY_USAGE_DESCRIPTION</string>
     </config-file>  
   </platform>
 </plugin>
