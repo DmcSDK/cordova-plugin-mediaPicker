@@ -1,4 +1,4 @@
-# MediaPicker v:2.1.5
+# MediaPicker v:2.2.3
 android ios mediaPicker support  selection of multiple image and video </br>
 
 [GitHub:](https://github.com/dmcBig/cordova-plugin-mediaPicker) https://github.com/dmcBig/cordova-plugin-mediaPicker</br>
@@ -10,7 +10,7 @@ How do I use?
 use npm:
 
 ```npm
-  cordova plugin add cordova-plugin-mediapicker-dmcbig --variable IOS_PHOTO_LIBRARY_USAGE_DESCRIPTION=your usage message
+  cordova plugin add cordova-plugin-mediapicker-dmcbig --variable IOS_PHOTO_LIBRARY_USAGE_DESCRIPTION="your usage message"
 ```
 <font color="#660000">IOS: please use XCode 9</font></br> 
 
