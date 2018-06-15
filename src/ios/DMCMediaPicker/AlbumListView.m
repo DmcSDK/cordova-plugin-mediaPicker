@@ -48,6 +48,13 @@
     _dataNameSource=names;
     _nowIndex=nowIndex;
     [self.tableView reloadData];
+    int scrolltoIndex=0;
+    if((int)_nowIndex>[_dataNameSource count]-4){
+        scrolltoIndex= [_dataNameSource count]-1;
+    }else{
+        scrolltoIndex=((int)_nowIndex+3);
+    }
+    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForItem:scrolltoIndex inSection:0]  atScrollPosition:UITableViewScrollPositionBottom animated:NO];
 }
 
 
@@ -70,6 +77,8 @@
         CGFloat margin=20;
         UIImageView *cellImageView = [[UIImageView alloc]initWithFrame:CGRectMake(margin, 10, _cellHeight-20, _cellHeight-20)];
         cellImageView.backgroundColor = [UIColor brownColor];
+        cellImageView.contentMode=UIViewContentModeScaleAspectFill;
+        cellImageView.clipsToBounds=YES;
         cellImageView.tag = 101;
         [cell addSubview:cellImageView];
         
@@ -79,7 +88,7 @@
     }
     
     if(_nowIndex==indexPath.item){
-        cell.backgroundColor=[[UIColor blackColor] colorWithAlphaComponent:0.2f];
+        cell.backgroundColor=[[UIColor blackColor] colorWithAlphaComponent:0.13f];
     }else{
         cell.backgroundColor=[UIColor whiteColor];
     }
@@ -94,6 +103,7 @@
                                                   options:nil
                                             resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
                                                 UIImageView *cellImageView = (UIImageView *)[cell viewWithTag:101];
+
                                                 cellImageView.image = result;
                                                 //标题
                                                 UILabel *cellText = (UILabel *)[cell viewWithTag:102];
