@@ -21,6 +21,7 @@
     "cordova-ios",
     "mediaPicker",
     "videoPicker",
+    "GifPicker",
     "compress",
     "fileToBlob"
   ],
