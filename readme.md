@@ -97,5 +97,10 @@ document.addEventListener("MediaPicker.CompressVideoEvent", function(data) {
 ![](https://github.com/dmcBig/MediaPickerPoject/blob/master/Screenshots/Screenshots5.png)
 ![](https://github.com/dmcBig/MediaPickerPoject/blob/master/Screenshots/Screenshots6.png)
 
+[My Android Source GitHub:](https://github.com/dmcBig/MediaPickerPoject) https://github.com/dmcBig/MediaPickerPoject</br>
+
 ## IOS
-![](https://github.com/dmcBig/cordova-plugin-mediaPicker/blob/master/www/demo/ios.gif)
+<img src="https://github.com/dmcBig/cordova-plugin-mediaPicker/blob/master/www/demo/ios.gif" width="300" alt="ios" />
+
+[My IOS Source GitHub:](https://github.com/dmcBig/IOSMediaPicker) https://github.com/dmcBig/IOSMediaPicker</br>
+
