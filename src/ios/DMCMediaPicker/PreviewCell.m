@@ -19,6 +19,9 @@
         self.artScrollView.maximumZoomScale = 5.0;
         self.artScrollView.showsVerticalScrollIndicator = NO;
         self.artScrollView.showsHorizontalScrollIndicator = NO;
+        if (@available(iOS 11.0, *)) {
+            self.artScrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+        }
         UITapGestureRecognizer *tap1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTap:)];
         [self.artScrollView addGestureRecognizer:tap1];
         UITapGestureRecognizer *tap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTap:)];
@@ -71,9 +74,6 @@
     self.imgView = [[UIImageView alloc] init];
     self.imgView.contentMode = UIViewContentModeScaleAspectFit;
     self.imgView.frame = CGRectMake(0, 0,CGRectGetWidth(self.frame), CGRectGetHeight(self.frame));
-
-   // UIImageView *textimage=[[UIImageView alloc] initWithImage:image];
-   // self.imgView.frame = [self setImageCGRect:textimage SCREENWIDTH:CGRectGetWidth(self.frame) SCREENHEIGHT:CGRectGetHeight(self.frame)];
     self.imgView.image = image;
     self.artScrollView.frame=self.imgView.frame;
     [self.artScrollView addSubview:self.imgView];
@@ -100,59 +100,6 @@
     return self.imgView;
 }
 
-
-//控制缩放是在中心
-- (void)scrollViewDidZoom:(UIScrollView *)scrollView
-{
-    CGFloat offsetX = (scrollView.bounds.size.width > scrollView.contentSize.width)?
-    
-    (scrollView.bounds.size.width - scrollView.contentSize.width) * 0.5 : 0.0;
-    
-    CGFloat offsetY = (scrollView.bounds.size.height > scrollView.contentSize.height)?
-    
-    (scrollView.bounds.size.height - scrollView.contentSize.height) * 0.5 : 0.0;
-    
-    self.imgView.center = CGPointMake(scrollView.contentSize.width * 0.5 + offsetX,
-                                       
-                                       scrollView.contentSize.height * 0.5 + offsetY);
-}
-
-//根据不同的比例设置尺寸
--(CGRect) setImageCGRect:(UIImageView *)imageView SCREENWIDTH:(CGFloat)SCREENWIDTH SCREENHEIGHT:(CGFloat)SCREENHEIGHT
-{
-    
-    CGFloat imageX = imageView.frame.size.width;
-    
-    CGFloat imageY = imageView.frame.size.height;
-    
-    CGRect imgfram;
-    
-    CGFloat CGscale;
-    
-    BOOL flx =  (SCREENWIDTH / SCREENHEIGHT) > (imageX / imageY);
-    
-    if(flx)
-    {
-        CGscale = SCREENHEIGHT / imageY;
-        
-        imageX = imageX * CGscale;
-        
-        imgfram = CGRectMake((SCREENWIDTH - imageX) / 2, 0, imageX, SCREENHEIGHT);
-        
-        return imgfram;
-    }
-    else
-    {
-        CGscale = SCREENWIDTH / imageX;
-        
-        imageY = imageY * CGscale;
-        
-        imgfram = CGRectMake(0, (SCREENHEIGHT - imageY) / 2, SCREENWIDTH, imageY);
-        
-        return imgfram;
-    }
-    
-}
 
 
 @end
