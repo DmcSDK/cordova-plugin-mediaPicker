@@ -4,24 +4,10 @@ android ios mediaPicker support  selection of multiple image and video gif</br>
 [GitHub:](https://github.com/dmcBig/cordova-plugin-mediaPicker) https://github.com/dmcBig/cordova-plugin-mediaPicker</br>
 
 # Screenshots
-<!--special start-->
-<table>
-  <tbody>
-    <tr>
-      <td align="center" valign="middle">
-        <a href="https://github.com/dmcBig/MediaPickerPoject" target="_blank">
-          <img src="https://github.com/dmcBig/cordova-plugin-mediaPicker/blob/master/www/demo/android.gif" width="300" alt="android" />
-        </a>
-      </td>
-      <td align="center" valign="middle">
-        <a href="https://github.com/dmcBig/IOSMediaPicker" target="_blank">
-          <img src="https://github.com/dmcBig/cordova-plugin-mediaPicker/blob/master/www/demo/ios.gif" width="300" alt="ios" />
-        </a>
-      </td>
-    </tr><tr></tr>
-  </tbody>
-</table>
-<!--special end-->
+
+| Android         | iOS          |
+|:---------------:|:------------:|
+| <img src="https://github.com/dmcBig/cordova-plugin-mediaPicker/blob/master/www/demo/android.gif" width="270px" height="480"> | <img src="https://github.com/dmcBig/cordova-plugin-mediaPicker/blob/master/www/demo/ios.gif" width="270px" height="480"> |
 
 [My Android Source GitHub:](https://github.com/dmcBig/MediaPickerPoject) https://github.com/dmcBig/MediaPickerPoject</br>
 
