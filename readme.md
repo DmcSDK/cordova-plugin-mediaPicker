@@ -3,6 +3,30 @@ android ios mediaPicker support  selection of multiple image and video gif</br>
 
 [GitHub:](https://github.com/dmcBig/cordova-plugin-mediaPicker) https://github.com/dmcBig/cordova-plugin-mediaPicker</br>
 
+# Screenshots
+<!--special start-->
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="middle">
+        <a href="https://github.com/dmcBig/MediaPickerPoject" target="_blank">
+          <img src="https://github.com/dmcBig/cordova-plugin-mediaPicker/blob/master/www/demo/android.gif" width="300" alt="android" />
+        </a>
+      </td>
+      <td align="center" valign="middle">
+        <a href="https://github.com/dmcBig/IOSMediaPicker" target="_blank">
+          <img src="https://github.com/dmcBig/cordova-plugin-mediaPicker/blob/master/www/demo/ios.gif" width="300" alt="ios" />
+        </a>
+      </td>
+    </tr><tr></tr>
+  </tbody>
+</table>
+<!--special end-->
+
+[My Android Source GitHub:](https://github.com/dmcBig/MediaPickerPoject) https://github.com/dmcBig/MediaPickerPoject</br>
+
+[My IOS Source GitHub:](https://github.com/dmcBig/IOSMediaPicker) https://github.com/dmcBig/IOSMediaPicker</br>
+
 
 How do I use?
 -------------------
@@ -88,14 +112,4 @@ document.addEventListener("MediaPicker.CompressVideoEvent", function(data) {
 
 
 
-# Screenshots
-## Android
-<img src="https://github.com/dmcBig/cordova-plugin-mediaPicker/blob/master/www/demo/android.gif" width="300" alt="android" />
-
-[My Android Source GitHub:](https://github.com/dmcBig/MediaPickerPoject) https://github.com/dmcBig/MediaPickerPoject</br>
-
-## IOS
-<img src="https://github.com/dmcBig/cordova-plugin-mediaPicker/blob/master/www/demo/ios.gif" width="300" alt="ios" />
-
-[My IOS Source GitHub:](https://github.com/dmcBig/IOSMediaPicker) https://github.com/dmcBig/IOSMediaPicker</br>
 
