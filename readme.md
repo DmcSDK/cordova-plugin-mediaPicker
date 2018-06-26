@@ -3,7 +3,7 @@ android ios mediaPicker support  selection of multiple image and video gif</br>
 
 [GitHub:](https://github.com/dmcBig/cordova-plugin-mediaPicker) https://github.com/dmcBig/cordova-plugin-mediaPicker</br>
 
-# Screenshots
+# Screenshots (Support Chinese and English)
 
 | Android         | iOS          |
 |:---------------:|:------------:|
