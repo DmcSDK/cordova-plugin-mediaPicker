@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-mediapicker-dmcbig",
-  "version": "2.2.5",
+  "version": "2.2.6",
   "description": "android ios mediaPicker support selection of multiple image and video",
   "cordova": {
     "id": "cordova-plugin-mediapicker-dmcbig",
@@ -11,24 +11,29 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dmcBig/cordova-plugin-mediaPicker.git"
+    "url": "git+https://github.com/DmcSDK/cordova-plugin-mediaPicker.git"
   },
   "keywords": [
     "cordova",
     "imagePicker",
-    "ecosystem:cordova",
+    "image Picker",
+    "Multiple Image Selection",
+    "video Selection",
+    "gif Selection",
     "cordova-android",
     "cordova-ios",
     "mediaPicker",
     "videoPicker",
+    "video Picker",
     "gifPicker",
     "compress",
-    "fileToBlob"
+    "fileToBlob",
+    "compress image"
   ],
-  "author": "dmcBig",
+  "author": "DmcSDK",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/dmcBig/cordova-plugin-mediaPicker/issues"
+    "url": "https://github.com/DmcSDK/cordova-plugin-mediaPicker/issues"
   },
-  "homepage": "https://github.com/dmcBig/cordova-plugin-mediaPicker#readme"
+  "homepage": "https://github.com/DmcSDK/cordova-plugin-mediaPicker#readme"
 }
