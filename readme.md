@@ -29,7 +29,7 @@ html code:
     </body>
 
 
-index.js simple code:
+index.js **simple** code:
 ```
 var resultMedias=[];
 var imgs = document.getElementsByName('imgView');
@@ -61,7 +61,7 @@ function getThumbnail(medias) {
 function loadingUI() {}
 ```    
 
-index.js upload and compress code:
+index.js **upload** and **compress** code:
 ```
 document.getElementById('uploadBtn').onclick = function() {
     //please:  cordova plugin add cordova-plugin-file-transfer
