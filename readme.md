@@ -59,7 +59,7 @@ function getThumbnail(medias) {
 
 document.getElementById('uploadBtn').onclick = function() {
     //please:  cordova plugin add cordova-plugin-file-transfer
-    //see:  https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-file-transfer/index.html
+    //see:  https://github.com/apache/cordova-plugin-file-transfer
     //use medias[index].path
 
     //OR
@@ -79,7 +79,7 @@ function compressImage() {
 
 function loading() {}
 
-//ios Video transcoding compression to MP4 (use AVAssetExportPresetMediumQuality)
+//ios Video transcoding compression to MP4 Event(use AVAssetExportPresetMediumQuality)
 document.addEventListener("MediaPicker.CompressVideoEvent", function(data) {
     alert(data.status + "||" + data.index);
 }, false);
