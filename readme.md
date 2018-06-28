@@ -29,8 +29,9 @@ html code:
     </body>
 
 
-index.js code:
+index.js simple code:
 ```
+var resultMedias=[];
 var imgs = document.getElementsByName('imgView');
 var args = {
     'selectMode': 101, //101=picker image and video , 100=image , 102=video
@@ -41,7 +42,7 @@ var args = {
 document.getElementById('openBtn').onclick = function() {
     MediaPicker.getMedias(args, function(medias) {
         //medias [{mediaType: "image", path:'/storage/emulated/0/DCIM/Camera/20170808_145202.jpg', size: 21993}]
-        window.medias = medias;
+        resultMedias = medias;
         getThumbnail(medias);
     }, function(e) { console.log(e) })
 };
@@ -56,7 +57,10 @@ function getThumbnail(medias) {
         }, function(e) { console.log(e) });
     }
 }
+```    
 
+index.js upload and compress code:
+```
 document.getElementById('uploadBtn').onclick = function() {
     //please:  cordova plugin add cordova-plugin-file-transfer
     //see:  https://github.com/apache/cordova-plugin-file-transfer
@@ -67,10 +71,10 @@ document.getElementById('uploadBtn').onclick = function() {
 };
 
 function compressImage() {
-    for (var i = 0; i < medias.length; i++) {
-        // if(medias[i].size>1048576){ medias[i].quality=50; } else {d ataArray[i].quality=100;}
-        medias[i].quality = 30; //when the value is 100,return original image
-        MediaPicker.compressImage(medias[i], function(compressData) {
+    for (var i = 0; i < resultMedias.length; i++) {
+        // if(resultMedias[i].size>1048576){ resultMedias[i].quality=50; } else {d ataArray[i].quality=100;}
+        resultMedias[i].quality = 30; //when the value is 100,return original image
+        MediaPicker.compressImage(resultMedias[i], function(compressData) {
             //user compressData.path upload compress img
             console.log(compressData.path);
         }, function(e) { console.log(e) });
