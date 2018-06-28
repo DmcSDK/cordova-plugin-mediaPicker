@@ -61,6 +61,7 @@ function getThumbnail(medias) {
 function loadingUI() {}
 ```    
 
+
 index.js **upload** and **compress** code:
 ```
 document.getElementById('uploadBtn').onclick = function() {
