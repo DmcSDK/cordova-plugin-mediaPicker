@@ -217,7 +217,7 @@ public class MediaPicker extends CordovaPlugin {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             thumbImage.compress(Bitmap.CompressFormat.JPEG, quality, baos);
             byte[] imageBytes = baos.toByteArray();
-            encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+            encodedImage = Base64.encodeToString(imageBytes, Base64.NO_WRAP);
             baos.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -324,7 +324,7 @@ public class MediaPicker extends CordovaPlugin {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return Base64.encodeToString(data, Base64.DEFAULT);
+        return Base64.encodeToString(data, Base64.NO_WRAP);
     }
 
     public  void fileToBlob(String path, CallbackContext callbackContext) {
