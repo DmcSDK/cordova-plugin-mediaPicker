@@ -50,13 +50,15 @@ document.getElementById('openBtn').onclick = function() {
 function getThumbnail(medias) {
     for (var i = 0; i < medias.length; i++) {
         //medias[i].thumbnailQuality=50; (Optional)
-        //loading(); //show loading ui
+        //loadingUI(); //show loading ui
         MediaPicker.extractThumbnail(medias[i], function(data) {
             imgs[data.index].src = 'data:image/jpeg;base64,' + data.thumbnailBase64;
             imgs[data.index].setAttribute('style', 'transform:rotate(' + data.exifRotate + 'deg)');
         }, function(e) { console.log(e) });
     }
 }
+
+function loadingUI() {}
 ```    
 
 index.js upload and compress code:
@@ -80,8 +82,6 @@ function compressImage() {
         }, function(e) { console.log(e) });
     }
 }
-
-function loading() {}
 
 //ios Video transcoding compression to MP4 Event(use AVAssetExportPresetMediumQuality)
 document.addEventListener("MediaPicker.CompressVideoEvent", function(data) {
