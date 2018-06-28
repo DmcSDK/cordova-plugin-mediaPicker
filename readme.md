@@ -28,7 +28,7 @@ html code:
         <script type="text/javascript" src="js/index.js"></script>
     </body>
 
-
+</br>
 index.js **simple** code:
 ```
 var resultMedias=[];
@@ -61,7 +61,7 @@ function getThumbnail(medias) {
 function loadingUI() {}
 ```    
 
-
+</br>
 index.js **upload** and **compress** code:
 ```
 document.getElementById('uploadBtn').onclick = function() {
