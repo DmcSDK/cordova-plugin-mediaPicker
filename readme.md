@@ -1,4 +1,4 @@
-# MediaPicker v:2.2.3 (Support Chinese and English)
+# MediaPicker v:2.3.0 (Support Chinese and English)
 android ios mediaPicker support  selection of multiple image and video gif</br>
 
 [GitHub:](https://github.com/DmcSDK/cordova-plugin-mediaPicker) https://github.com/DmcSDK/cordova-plugin-mediaPicker</br>

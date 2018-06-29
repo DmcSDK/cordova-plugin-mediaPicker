@@ -185,7 +185,7 @@
     
     CGImageRelease(image);
     CGFloat q=quality/100.0f;
-    NSString *thumbnail=[UIImageJPEGRepresentation(shotImage,q) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+    NSString *thumbnail=[UIImageJPEGRepresentation(shotImage,q) base64EncodedStringWithOptions:0];
     return thumbnail;
 }
 
@@ -199,7 +199,7 @@
     UIImage *result = [[UIImage alloc] initWithContentsOfFile:path];
     NSInteger qu = quality>0?quality:3;
     CGFloat q=qu/100.0f;
-    NSString *thumbnail=[UIImageJPEGRepresentation(result,q) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+    NSString *thumbnail=[UIImageJPEGRepresentation(result,q) base64EncodedStringWithOptions:0];
     return thumbnail;
 }
 
