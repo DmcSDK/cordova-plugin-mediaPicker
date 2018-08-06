@@ -66,8 +66,6 @@
 
 }
 
-
-
 -(void)imageToSandbox:(PHAsset *)asset dmcPickerPath:(NSString*)dmcPickerPath aListArray:(NSMutableArray*)aListArray selectArray:(NSMutableArray*)selectArray index:(int)index{
 
 
@@ -75,6 +73,7 @@
         NSString *filename=[asset valueForKey:@"filename"];
         NSString *fullpath=[NSString stringWithFormat:@"%@/%@%@", dmcPickerPath,[[NSProcessInfo processInfo] globallyUniqueString], filename];
         NSNumber *size=[NSNumber numberWithLong:imageData.length];
+
         NSError *error = nil;
         if (![imageData writeToFile:fullpath options:NSAtomicWrite error:&error]) {
             NSLog(@"%@", [error localizedDescription]);
@@ -91,6 +90,23 @@
     }];
 }
 
+- (void)getExif:(CDVInvokedUrlCommand*)command
+{
+    callbackId=command.callbackId;
+    NSMutableDictionary *options = [command.arguments objectAtIndex: 0];
+    if([@"image" isEqualToString: [options objectForKey:@"mediaType"]]){
+        NSData *imageData = [NSData dataWithContentsOfFile:[options objectForKey:@"path"] ];
+        //UIImage * image= [[UIImage alloc] initWithContentsOfFile:[options objectForKey:@"path"] ];
+        CGImageSourceRef imageRef=CGImageSourceCreateWithData((CFDataRef)imageData, NULL);
+        
+        CFDictionaryRef imageInfo = CGImageSourceCopyPropertiesAtIndex(imageRef, 0,NULL);
+        NSLog(@"All Exif Info:%@",imageInfo);
+        NSDictionary  *nsdic = (__bridge_transfer  NSDictionary*)imageInfo;
+        
+        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:nsdic] callbackId:callbackId];
+    }
+
+}
 
 
 -(void)videoToSandbox:(PHAsset *)asset dmcPickerPath:(NSString*)dmcPickerPath aListArray:(NSMutableArray*)aListArray selectArray:(NSMutableArray*)selectArray index:(int)index{
@@ -103,6 +119,7 @@
             NSString *fullpath=[NSString stringWithFormat:@"%@/%@", dmcPickerPath,filename];
             NSLog(@"%@", urlAsset.URL);
             NSData *data = [NSData dataWithContentsOfURL:urlAsset.URL options:NSDataReadingUncached error:nil];
+
             NSNumber* size=[NSNumber numberWithLong: data.length];
             NSError *error = nil;
             if (![data writeToFile:fullpath options:NSAtomicWrite error:&error]) {
@@ -195,30 +212,48 @@
 
 }
 
--(NSString*)thumbnailImage:(NSString*)path quality:(NSInteger)quality{
-    UIImage *result = [[UIImage alloc] initWithContentsOfFile:path];
+-(UIImage*)getThumbnailImage:(NSString*)path type:(NSString*)mtype{
+    UIImage *result;
+    if([@"image" isEqualToString: mtype]){
+        result= [[UIImage alloc] initWithContentsOfFile:path];
+    }else{
+        NSURL *fileURL = [NSURL fileURLWithPath:path];
+        
+        AVURLAsset *asset = [[AVURLAsset alloc] initWithURL:fileURL options:nil];
+        
+        AVAssetImageGenerator *gen = [[AVAssetImageGenerator alloc] initWithAsset:asset];
+        
+        gen.appliesPreferredTrackTransform = YES;
+        
+        CMTime time = CMTimeMakeWithSeconds(0.0, 600);
+        
+        NSError *error = nil;
+        
+        CMTime actualTime;
+        
+        CGImageRef image = [gen copyCGImageAtTime:time actualTime:&actualTime error:&error];
+        
+        result = [[UIImage alloc] initWithCGImage:image];
+    }
+    return result;
+}
+
+-(NSString*)thumbnailImage:(UIImage*)result quality:(NSInteger)quality{
     NSInteger qu = quality>0?quality:3;
     CGFloat q=qu/100.0f;
     NSString *thumbnail=[UIImageJPEGRepresentation(result,q) base64EncodedStringWithOptions:0];
     return thumbnail;
 }
 
-
-
 - (void)extractThumbnail:(CDVInvokedUrlCommand*)command
 {
     callbackId=command.callbackId;
     NSMutableDictionary *options = [command.arguments objectAtIndex: 0];
-    NSString *thumbnail;
-    if([@"image" isEqualToString: [options objectForKey:@"mediaType"]]){
-        thumbnail=[self thumbnailImage:[options objectForKey:@"path"] quality:[[options objectForKey:@"thumbnailQuality"] integerValue]];
-    }else{
-        thumbnail=[self thumbnailVideo:[options objectForKey:@"path"] quality:[[options objectForKey:@"thumbnailQuality"] integerValue]];
-    }
-    
-    
+    UIImage * image=[self getThumbnailImage:[options objectForKey:@"path"] type:[options objectForKey:@"mediaType"]];
+    NSString *thumbnail=[self thumbnailImage:image quality:[[options objectForKey:@"thumbnailQuality"] integerValue]];
+
     [options setObject:thumbnail forKey:@"thumbnailBase64"];
-    NSNumber* rotate = [NSNumber numberWithInt:0];
+    NSNumber* rotate = [NSNumber numberWithInt:[self getOrientation:image]];
     [options setObject:rotate forKey:@"exifRotate"];
 
     [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:options] callbackId:callbackId];
@@ -275,24 +310,47 @@
     [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArrayBuffer:result]callbackId:command.callbackId];
 }
 
+//-(int)getOrientation:(UIImage *)image{
+//    switch (image.imageOrientation) {
+//        case UIImageOrientationDown:
+//            return 270;
+//        case UIImageOrientationDownMirrored:
+//            return 270;
+//        case UIImageOrientationLeft:
+//            return 0;
+//        case UIImageOrientationLeftMirrored:
+//            return 0;
+//        case UIImageOrientationRight:
+//            return 180;
+//        case UIImageOrientationRightMirrored:
+//            return 180;
+//        case UIImageOrientationUp:
+//            return 90;
+//        case UIImageOrientationUpMirrored:
+//            return 90;
+//        default:
+//            return 0;
+//    }
+//}
+
 -(int)getOrientation:(UIImage *)image{
     switch (image.imageOrientation) {
         case UIImageOrientationDown:
-            return 180;
+            return 270;
         case UIImageOrientationDownMirrored:
-            return 180;
+            return 270;
         case UIImageOrientationLeft:
-            return 270;
+            return 0;
         case UIImageOrientationLeftMirrored:
-            return 270;
+            return 0;
         case UIImageOrientationRight:
-            return 90;
+            return 180;
         case UIImageOrientationRightMirrored:
-            return 90;
+            return 180;
         case UIImageOrientationUp:
-            return 0;
+            return 90;
         case UIImageOrientationUpMirrored:
-            return 0;
+            return 90;
         default:
             return 0;
     }
