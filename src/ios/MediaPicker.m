@@ -93,20 +93,20 @@
 - (void)getExifForKey:(CDVInvokedUrlCommand*)command
 {
     callbackId=command.callbackId;
-    NSMutableDictionary *options = [command.arguments objectAtIndex: 0];
+    NSString *path= [command.arguments objectAtIndex: 0];
     NSString *key  = [command.arguments objectAtIndex: 1];
-    if([@"image" isEqualToString: [options objectForKey:@"mediaType"]]){
-        NSData *imageData = [NSData dataWithContentsOfFile:[options objectForKey:@"path"] ];
-        //UIImage * image= [[UIImage alloc] initWithContentsOfFile:[options objectForKey:@"path"] ];
-        CGImageSourceRef imageRef=CGImageSourceCreateWithData((CFDataRef)imageData, NULL);
-        
-        CFDictionaryRef imageInfo = CGImageSourceCopyPropertiesAtIndex(imageRef, 0,NULL);
-        
-        NSDictionary  *nsdic = (__bridge_transfer  NSDictionary*)imageInfo;
-        NSString* orientation=[nsdic objectForKey:key];
-       
-        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:orientation] callbackId:callbackId];
-    }
+
+    NSData *imageData = [NSData dataWithContentsOfFile:path];
+    //UIImage * image= [[UIImage alloc] initWithContentsOfFile:[options objectForKey:@"path"] ];
+    CGImageSourceRef imageRef=CGImageSourceCreateWithData((CFDataRef)imageData, NULL);
+    
+    CFDictionaryRef imageInfo = CGImageSourceCopyPropertiesAtIndex(imageRef, 0,NULL);
+    
+    NSDictionary  *nsdic = (__bridge_transfer  NSDictionary*)imageInfo;
+    NSString* orientation=[nsdic objectForKey:key];
+   
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:orientation] callbackId:callbackId];
+
 
 }
 
