@@ -19,6 +19,7 @@ function getThumbnail(medias) {
         //loading(); //show loading ui
         MediaPicker.extractThumbnail(medias[i], function(data) {
             imgs[data.index].src = 'data:image/jpeg;base64,' + data.thumbnailBase64;
+            imgs[data.index].setAttribute('style', 'transform:rotate(' + data.exifRotate + 'deg)');
         }, function(e) { console.log(e) });
     }
 }
@@ -43,9 +44,28 @@ function compressImage() {
     }
 }
 
+
 function loading() {}
+
 
 //ios Video transcoding compression to MP4 (use AVAssetExportPresetMediumQuality)
 document.addEventListener("MediaPicker.CompressVideoEvent", function(data) {
     alert(data.status + "||" + data.index);
 }, false);
+
+
+
+function getExifForKey(){
+    MediaPicker.getExifForKey(resultMedias[i].path,"Orientation", function(data) {
+        alert(data);
+    }, function(e) { console.log(e) });
+}
+
+
+function fileToBlob(){
+    MediaPicker.fileToBlob(resultMedias[i].path, function(data) {
+        var blob = new Blob([data], {"type": "image/jpeg"});
+        var domURL = window.URL || window.webkitURL;
+        imgs[0].src = domURL.createObjectURL(blob);        
+    }, function(e) { console.log(e) });
+}
