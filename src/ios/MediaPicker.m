@@ -90,20 +90,22 @@
     }];
 }
 
-- (void)getExif:(CDVInvokedUrlCommand*)command
+- (void)getExifForKey:(CDVInvokedUrlCommand*)command
 {
     callbackId=command.callbackId;
     NSMutableDictionary *options = [command.arguments objectAtIndex: 0];
+    NSString *key  = [command.arguments objectAtIndex: 1];
     if([@"image" isEqualToString: [options objectForKey:@"mediaType"]]){
         NSData *imageData = [NSData dataWithContentsOfFile:[options objectForKey:@"path"] ];
         //UIImage * image= [[UIImage alloc] initWithContentsOfFile:[options objectForKey:@"path"] ];
         CGImageSourceRef imageRef=CGImageSourceCreateWithData((CFDataRef)imageData, NULL);
         
         CFDictionaryRef imageInfo = CGImageSourceCopyPropertiesAtIndex(imageRef, 0,NULL);
-        NSLog(@"All Exif Info:%@",imageInfo);
-        NSDictionary  *nsdic = (__bridge_transfer  NSDictionary*)imageInfo;
         
-        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:nsdic] callbackId:callbackId];
+        NSDictionary  *nsdic = (__bridge_transfer  NSDictionary*)imageInfo;
+        NSString* orientation=[nsdic objectForKey:key];
+       
+        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:orientation] callbackId:callbackId];
     }
 
 }
@@ -253,9 +255,6 @@
     NSString *thumbnail=[self thumbnailImage:image quality:[[options objectForKey:@"thumbnailQuality"] integerValue]];
 
     [options setObject:thumbnail forKey:@"thumbnailBase64"];
-    NSNumber* rotate = [NSNumber numberWithInt:[self getOrientation:image]];
-    [options setObject:rotate forKey:@"exifRotate"];
-
     [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:options] callbackId:callbackId];
 }
 
@@ -310,49 +309,5 @@
     [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArrayBuffer:result]callbackId:command.callbackId];
 }
 
-//-(int)getOrientation:(UIImage *)image{
-//    switch (image.imageOrientation) {
-//        case UIImageOrientationDown:
-//            return 270;
-//        case UIImageOrientationDownMirrored:
-//            return 270;
-//        case UIImageOrientationLeft:
-//            return 0;
-//        case UIImageOrientationLeftMirrored:
-//            return 0;
-//        case UIImageOrientationRight:
-//            return 180;
-//        case UIImageOrientationRightMirrored:
-//            return 180;
-//        case UIImageOrientationUp:
-//            return 90;
-//        case UIImageOrientationUpMirrored:
-//            return 90;
-//        default:
-//            return 0;
-//    }
-//}
 
--(int)getOrientation:(UIImage *)image{
-    switch (image.imageOrientation) {
-        case UIImageOrientationDown:
-            return 270;
-        case UIImageOrientationDownMirrored:
-            return 270;
-        case UIImageOrientationLeft:
-            return 0;
-        case UIImageOrientationLeftMirrored:
-            return 0;
-        case UIImageOrientationRight:
-            return 180;
-        case UIImageOrientationRightMirrored:
-            return 180;
-        case UIImageOrientationUp:
-            return 90;
-        case UIImageOrientationUpMirrored:
-            return 90;
-        default:
-            return 0;
-    }
-}
 @end
