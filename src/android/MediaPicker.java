@@ -44,7 +44,7 @@ public class MediaPicker extends CordovaPlugin {
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         getPublicArgs(args);
-        
+
         if (action.equals("getMedias")) {
             this.getMedias(args, callbackContext);
             return true;
@@ -62,6 +62,9 @@ public class MediaPicker extends CordovaPlugin {
             return true;
         }else if(action.equals("fileToBlob")){
             this.fileToBlob(args.getString(0), callbackContext);
+            return true;
+        }else if(action.equals("getExifForKey")){
+            this.getExifForKey(args.getString(0),args.getString(1),callbackContext);
             return true;
         }
         return false;
@@ -227,23 +230,23 @@ public class MediaPicker extends CordovaPlugin {
 
     public void  compressImage( JSONArray args, CallbackContext callbackContext){
         this.callback=callbackContext;
-            try {
-                JSONObject jsonObject = args.getJSONObject(0);
-                String path = jsonObject.getString("path");
-                int quality=jsonObject.getInt("quality");
-                if(quality<100) {
-                    File file = compressImage(path, quality);
-                    jsonObject.put("path", file.getPath());
-                    jsonObject.put("size", file.length());
-                    jsonObject.put("name", file.getName());
-                    callbackContext.success(jsonObject);
-                }else{
-                    callbackContext.success(jsonObject);
-                }
-            } catch (Exception e) {
-                callbackContext.error("compressImage error"+e);
-                e.printStackTrace();
+        try {
+            JSONObject jsonObject = args.getJSONObject(0);
+            String path = jsonObject.getString("path");
+            int quality=jsonObject.getInt("quality");
+            if(quality<100) {
+                File file = compressImage(path, quality);
+                jsonObject.put("path", file.getPath());
+                jsonObject.put("size", file.length());
+                jsonObject.put("name", file.getName());
+                callbackContext.success(jsonObject);
+            }else{
+                callbackContext.success(jsonObject);
             }
+        } catch (Exception e) {
+            callbackContext.error("compressImage error"+e);
+            e.printStackTrace();
+        }
     }
 
     public File compressImage(String path,int quality){
@@ -311,6 +314,16 @@ public class MediaPicker extends CordovaPlugin {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public  void getExifForKey(String path,String tag, CallbackContext callbackContext) {
+        try {
+            ExifInterface exifInterface = new ExifInterface(path);
+            String object = exifInterface.getAttribute(tag);
+            callbackContext.success(object);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

@@ -19,7 +19,6 @@ function getThumbnail(medias) {
         //loading(); //show loading ui
         MediaPicker.extractThumbnail(medias[i], function(data) {
             imgs[data.index].src = 'data:image/jpeg;base64,' + data.thumbnailBase64;
-            imgs[data.index].setAttribute('style', 'transform:rotate(' + data.exifRotate + 'deg)');
         }, function(e) { console.log(e) });
     }
 }

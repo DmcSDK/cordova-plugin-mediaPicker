@@ -1,4 +1,3 @@
-cordova.define("cordova-plugin-mediapicker-dmcbig.MediaPicker", function(require, exports, module) {
 var exec = require('cordova/exec');
 
 
@@ -24,13 +23,9 @@ var MediaPicker = {
     fileToBlob:function(arg0, success, error) {
         exec(success, error, "MediaPicker", "fileToBlob", [arg0]);
     },
-    getExif:function(arg0, success, error) {
-        exec(success, error, "MediaPicker", "getExif", [arg0]);
+    getExifForKey:function(arg0,arg1, success, error) {
+        exec(success, error, "MediaPicker", "getExifForKey", [arg0,arg1]);
     }
 };
 
 module.exports = MediaPicker;
-
-
-
-});
