@@ -49,12 +49,15 @@
     _nowIndex=nowIndex;
     [self.tableView reloadData];
     int scrolltoIndex=0;
+    //下面代码是让下拉选中了有个居中的感觉
     if((int)_nowIndex>[_dataNameSource count]-4){
         scrolltoIndex= [_dataNameSource count]-1;
     }else{
         scrolltoIndex=((int)_nowIndex+3);
     }
-    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForItem:scrolltoIndex inSection:0]  atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+    if([_dataNameSource count]>3){
+        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForItem:scrolltoIndex inSection:0]  atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+    }
 }
 
 
@@ -103,7 +106,7 @@
                                                   options:nil
                                             resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
                                                 UIImageView *cellImageView = (UIImageView *)[cell viewWithTag:101];
-
+                                                
                                                 cellImageView.image = result;
                                                 //标题
                                                 UILabel *cellText = (UILabel *)[cell viewWithTag:102];
@@ -115,9 +118,9 @@
                                                 
                                                 [attrStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:12] range:[str rangeOfString:count]];
                                                 cellText.attributedText =attrStr;
-
+                                                
                                             }];
-
+    
     return cell;
 }
 
