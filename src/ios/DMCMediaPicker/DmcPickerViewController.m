@@ -219,12 +219,14 @@
 }
 
 -(void)show:(NSInteger *)index{
-    fetchResult = dataSource[(int)index];
-    [self setTitleView:albumsTitlelist[(int)index]];
-    [_collectionView reloadData];
-    [self hiddenAlbumlistView];
-    [_collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]  atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
-    nowSelectAlbum=index;
+    if([dataSource count]>0){
+        fetchResult = dataSource[(int)index];
+        [self setTitleView:albumsTitlelist[(int)index]];
+        [_collectionView reloadData];
+        [self hiddenAlbumlistView];
+        [_collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]  atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
+        nowSelectAlbum=index;
+    }
 }
 
 
