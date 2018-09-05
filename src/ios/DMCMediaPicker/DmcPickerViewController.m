@@ -213,7 +213,6 @@
             if (collection.assetCollectionSubtype == PHAssetCollectionSubtypeSmartAlbumAllHidden) continue; //包含隐藏照片或视频的文件夹
             if (collection.assetCollectionSubtype == 1000000201) continue; //『最近删除』相册
  
-            PHAssetCollection *collection = fetchResult[x];
             PHFetchResult *group = [PHAsset fetchAssetsInAssetCollection:collection options:options];
             if([group count]>0){
                 [albumsTitlelist addObject:collection.localizedTitle];
