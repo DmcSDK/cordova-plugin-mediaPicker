@@ -193,25 +193,33 @@
                                                                            subtype:PHAssetCollectionSubtypeAlbumSyncedAlbum options:nil];
     PHFetchResult *userCollections = [PHCollectionList fetchTopLevelUserCollectionsWithOptions:nil];
     
-    NSArray *collectionsFetchResults = @[smartAlbums, userCollections, syncedAlbums];
+    NSArray *allAlbums  = @[smartAlbums, userCollections, syncedAlbums];
     
     PHFetchOptions *options = [[PHFetchOptions alloc] init];
     options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO]];
+
     if(self.selectMode==100){
         options.predicate = [NSPredicate predicateWithFormat:@"mediaType == %ld", PHAssetMediaTypeImage];
     }else if(self.selectMode==102){
         options.predicate = [NSPredicate predicateWithFormat:@"mediaType == %ld", PHAssetMediaTypeVideo];
     }
-    for (int i = 0; i < collectionsFetchResults.count; i ++) {
-        PHFetchResult *fetchResult = collectionsFetchResults[i];
-        for (int x = 0; x < fetchResult.count; x ++) {
+
+    for (PHFetchResult *fetchResult in allAlbums) {
+        for (PHAssetCollection *collection in fetchResult) {
+            // 有可能是PHCollectionList类的的对象，过滤掉
+            if (![collection isKindOfClass:[PHAssetCollection class]]) continue;
+            // 过滤空相册
+            if (collection.estimatedAssetCount <= 0) continue;
+            if (collection.assetCollectionSubtype == PHAssetCollectionSubtypeSmartAlbumAllHidden) continue; //包含隐藏照片或视频的文件夹
+            if (collection.assetCollectionSubtype == 1000000201) continue; //『最近删除』相册
+ 
             PHAssetCollection *collection = fetchResult[x];
             PHFetchResult *group = [PHAsset fetchAssetsInAssetCollection:collection options:options];
             if([group count]>0){
                 [albumsTitlelist addObject:collection.localizedTitle];
                 [dataSource addObject:group];
             }
-        }
+        }    
     }
 
     _manager = [PHImageManager defaultManager];
