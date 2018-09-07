@@ -79,8 +79,8 @@
             NSLog(@"%@", [error localizedDescription]);
             [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[error localizedDescription]] callbackId:callbackId];
         } else {
-           
-            NSDictionary *dict=[NSDictionary dictionaryWithObjectsAndKeys:fullpath,@"path",@"image",@"mediaType",size,@"size",[NSNumber numberWithInt:index],@"index", nil];
+            
+            NSDictionary *dict=[NSDictionary dictionaryWithObjectsAndKeys:fullpath,@"path",[NSURL fileURLWithPath:fullpath] absoluteString],@"uri",@"image",@"mediaType",size,@"size",[NSNumber numberWithInt:index],@"index", nil];
             [aListArray addObject:dict];
             if([aListArray count]==[selectArray count]){
                 [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:aListArray] callbackId:callbackId];
@@ -129,7 +129,7 @@
                 [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[error localizedDescription]] callbackId:callbackId];
             } else {
                 
-                NSDictionary *dict=[NSDictionary dictionaryWithObjectsAndKeys:fullpath,@"path",size,@"size",@"video",@"mediaType" ,[NSNumber numberWithInt:index],@"index", nil];
+                NSDictionary *dict=[NSDictionary dictionaryWithObjectsAndKeys:fullpath,@"path",[NSURL fileURLWithPath:fullpath] absoluteString],@"uri",size,@"size",@"video",@"mediaType" ,[NSNumber numberWithInt:index],@"index", nil];
                 [aListArray addObject:dict];
                 if([aListArray count]==[selectArray count]){
                     [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:aListArray] callbackId:callbackId];
@@ -167,7 +167,7 @@
                 NSLog(@"completed!");
                 NSString *compressCompletedjs = [NSString stringWithFormat:@"MediaPicker.compressEvent('%@',%i)", @"completed",index];
                 [self.commandDelegate evalJs:compressCompletedjs];
-                NSDictionary *dict=[NSDictionary dictionaryWithObjectsAndKeys:fullpath,@"path",@"video",@"mediaType" ,[NSNumber numberWithInt:index],@"index", nil];
+                NSDictionary *dict=[NSDictionary dictionaryWithObjectsAndKeys:fullpath,@"path",[NSURL fileURLWithPath:fullpath] absoluteString],@"uri",@"video",@"mediaType" ,[NSNumber numberWithInt:index],@"index", nil];
                 [aListArray addObject:dict];
                 if([aListArray count]==[selectArray count]){
                     [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:aListArray] callbackId:callbackId];
@@ -283,6 +283,7 @@
             [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[error localizedDescription]] callbackId:callbackId];
         } else {
             [options setObject:fullpath forKey:@"path"];
+            [options setObject:[NSURL fileURLWithPath:fullpath] absoluteString] forKey:@"uri"];
             [options setObject:size forKey:@"size"];
             [options setObject:filename forKey:@"name"];
             [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:options] callbackId:callbackId];
