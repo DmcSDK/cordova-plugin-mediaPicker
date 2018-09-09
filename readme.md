@@ -97,7 +97,7 @@ document.addEventListener("MediaPicker.CompressVideoEvent", function(data) {
 
 | Android         | iOS          |
 |:---------------:|:------------:|
-| <img src="https://github.com/DmcSDK/cordova-plugin-mediaPicker/blob/master/www/demo/Screenshots1.png" width="270px" height="480"> | <img src="https://github.com/DmcSDK/cordova-plugin-mediaPicker/blob/master/www/demo/ios.png" width="270px" height="480"> |
+| <img src="https://raw.githubusercontent.com/DmcSDK/cordova-plugin-mediaPicker/master/www/demo/Screenshots1.png" width="270px" height="480"> | <img src="https://raw.githubusercontent.com/DmcSDK/cordova-plugin-mediaPicker/master/www/demo/ios.png" width="270px" height="480"> |
 
 [My Android Source GitHub:](https://github.com/dmcBig/MediaPickerPoject) https://github.com/dmcBig/MediaPickerPoject</br>
 
