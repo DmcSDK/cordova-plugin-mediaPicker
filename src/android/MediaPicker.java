@@ -237,7 +237,7 @@ public class MediaPicker extends CordovaPlugin {
             if(quality<100) {
                 File file = compressImage(path, quality);
                 jsonObject.put("path", file.getPath());
-                jsonObject.put("uri", Uri.fromFile(file.getPath()));
+                jsonObject.put("uri", Uri.fromFile(new File(file.getPath())));
                 jsonObject.put("size", file.length());
                 jsonObject.put("name", file.getName());
                 callbackContext.success(jsonObject);
