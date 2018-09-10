@@ -9,11 +9,10 @@ How do I use?
 use npm OR github:
 
 ```
-  cordova plugin add cordova-plugin-mediapicker-dmcbig --variable IOS_PHOTO_LIBRARY_USAGE_DESCRIPTION="your usage message"
+  cordova plugin add cordova-plugin-mediapicker-dmcsdk --variable IOS_PHOTO_LIBRARY_USAGE_DESCRIPTION="your usage message"
 
   cordova plugin add https://github.com/DmcSDK/cordova-plugin-mediaPicker.git --variable IOS_PHOTO_LIBRARY_USAGE_DESCRIPTION="your usage message"
 ```
-<font color="#660000">IOS: please use XCode 9</font></br> 
 
 ## Example
 html code:
