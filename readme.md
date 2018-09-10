@@ -1,15 +1,18 @@
 # MediaPicker v:2.3.0 (Support Chinese and English)
+android 和 ios 图片视频选择插件，支持多图 视频 gif，ui类似微信。QQ：2286700982</br>
 android ios mediaPicker support  selection of multiple image and video gif</br>
 
 [GitHub:](https://github.com/DmcSDK/cordova-plugin-mediaPicker) https://github.com/DmcSDK/cordova-plugin-mediaPicker</br>
 
-How do I use?
+怎么用？How do I use?
 -------------------
 
 use npm OR github:
 
 ```
   cordova plugin add cordova-plugin-mediapicker-dmcsdk --variable IOS_PHOTO_LIBRARY_USAGE_DESCRIPTION="your usage message"
+
+  or
 
   cordova plugin add https://github.com/DmcSDK/cordova-plugin-mediaPicker.git --variable IOS_PHOTO_LIBRARY_USAGE_DESCRIPTION="your usage message"
 ```
@@ -30,7 +33,7 @@ html code:
     </body>
 
 ### simple
-index.js **simple** code:
+index.js **simple** code: 
 ```
 var resultMedias=[];
 var imgs = document.getElementsByName('imgView');
@@ -42,7 +45,7 @@ var args = {
 
 document.getElementById('openBtn').onclick = function() {
     MediaPicker.getMedias(args, function(medias) {
-        //medias [{mediaType: "image", path:'/storage/emulated/0/DCIM/Camera/20170808_145202.jpg', size: 21993}]
+        //medias [{mediaType: "image", path:'/storage/emulated/0/DCIM/Camera/2017.jpg', uri:"android retrun uri,ios retrun URL" size: 21993}]
         resultMedias = medias;
         getThumbnail(medias);
     }, function(e) { console.log(e) })
@@ -62,7 +65,7 @@ function getThumbnail(medias) {
 function loadingUI() {}
 ```    
 
-### upload compress
+### upload and compress 上传 和 压缩
 index.js **upload** and **compress** code:
 ```
 document.getElementById('uploadBtn').onclick = function() {
@@ -91,6 +94,8 @@ document.addEventListener("MediaPicker.CompressVideoEvent", function(data) {
 }, false);
 ```    
 
+# More api 其他API
+[API](https://github.com/DmcSDK/cordova-plugin-mediaPicker/blob/master/www/MediaPicker.js) https://github.com/DmcSDK/cordova-plugin-mediaPicker/blob/master/www/MediaPicker.js</br>
 
 # Screenshots
 
