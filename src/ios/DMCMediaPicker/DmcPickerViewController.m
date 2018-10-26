@@ -326,12 +326,12 @@
     CollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:identify forIndexPath:indexPath];
     [cell sizeToFit];
     PHAsset *asset=fetchResult[indexPath.item];
-    [_manager requestImageForAsset:asset
-                        targetSize:CGSizeMake(200 , 200)
-                       contentMode:PHImageContentModeAspectFill
-                           options:nil
+    [_manager requestImageForAsset:asset targetSize:CGSizeMake(200 , 200)  contentMode:PHImageContentModeAspectFill options:nil
                      resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
-                         cell.imgView.image = result;
+                        BOOL downloadFinined = (![[info objectForKey:PHImageCancelledKey] boolValue] && ![info objectForKey:PHImageErrorKey] && ![[info objectForKey:PHImageResultIsDegradedKey] boolValue]);
+                        if (downloadFinined && result) { 
+                            cell.imgView.image = result;
+                        }
                      }];
     NSInteger i=[self isSelect:asset];
     if(asset.mediaType==PHAssetMediaTypeVideo){
@@ -340,8 +340,14 @@
         cell.labeGIF.hidden=YES;
         
         NSString *dtime=[NSString stringWithFormat:@"%.0f",asset.duration];
-        cell.labelL.text=[@"\t"stringByAppendingString:NSLocalizedString(@"Video",nil)];
-        cell.labelR.text=[[self getNewTimeFromDurationSecond:dtime.integerValue]stringByAppendingString:@"\t"];
+        cell.labelL.text = [@" "stringByAppendingString:NSLocalizedString(@"Video",nil)];
+        //Uilable默认会去除尾部空格所以处理一下
+        NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+        style.tailIndent = -3.0f;
+        style.alignment=NSTextAlignmentRight;
+        NSString *dtimeStr=[self getNewTimeFromDurationSecond:dtime.integerValue];
+        NSAttributedString *attrTextR = [[NSAttributedString alloc] initWithString:dtimeStr attributes:@{ NSParagraphStyleAttributeName : style}];
+        cell.labelR.attributedText=attrTextR;
     }else{
         NSString *fileName =[asset valueForKey:@"filename"];
         NSString * fileExtension = [fileName pathExtension];

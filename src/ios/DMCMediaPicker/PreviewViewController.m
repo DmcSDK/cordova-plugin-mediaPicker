@@ -148,12 +148,18 @@
     if([@"GIF" caseInsensitiveCompare:fileExtension]){
         cell.gifView.hidden=YES;
         [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:CGSizeMake(SCREEN_WIDTH*3 , SCREENH_HEIGHT*3) contentMode:PHImageContentModeAspectFill options:option                         resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
-            [cell setImg:result];
+            BOOL downloadFinined = (![[info objectForKey:PHImageCancelledKey] boolValue] && ![info objectForKey:PHImageErrorKey] && ![[info objectForKey:PHImageResultIsDegradedKey] boolValue]);
+            if (downloadFinined && result) { 
+                [cell setImg:result];
+            }            
         }];
     }else{
         cell.imgView.hidden=YES;
         [[PHImageManager defaultManager] requestImageDataForAsset:asset options:nil resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
-             [cell setGifImg:imageData];
+            BOOL downloadFinined = (![[info objectForKey:PHImageCancelledKey] boolValue] && ![info objectForKey:PHImageErrorKey] && ![[info objectForKey:PHImageResultIsDegradedKey] boolValue]);
+            if (downloadFinined && imageData) { 
+                [cell setGifImg:imageData];
+            }              
         }];
     }
     

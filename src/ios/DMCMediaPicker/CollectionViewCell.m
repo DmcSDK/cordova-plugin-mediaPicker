@@ -28,21 +28,20 @@
             self.labelR = [[UILabel alloc]initWithFrame:CGRectMake(width/2, width-labelH, width/2, labelH)];
             self.labelR.textColor=[UIColor whiteColor];
             self.labelR.font=[UIFont systemFontOfSize:13.0];
-            self.labelR.textAlignment=NSTextAlignmentRight;
+            //self.labelR.textAlignment=NSTextAlignmentRight;
             self.labelR.backgroundColor= [[UIColor blackColor] colorWithAlphaComponent:0.3f];
             
-            
+
             self.labeGIF = [[UILabel alloc] initWithFrame:CGRectMake(width-width/5-5, width-labelH-2, width/5, labelH-5)];
             self.labeGIF.backgroundColor = [UIColor clearColor];
             self.labeGIF.textColor=[UIColor whiteColor];
-            self.labeGIF.text=@"\tGIF\t";
-            self.labeGIF.layer.cornerRadius =4;
-            self.labeGIF.layer.masksToBounds  =YES;
-            self.labeGIF.textAlignment= NSTextAlignmentCenter;
-            self.labeGIF.baselineAdjustment= UIBaselineAdjustmentAlignCenters;
+         
+            NSAttributedString *attrText = [[NSAttributedString alloc] initWithString:@" GIF " attributes:@{ NSParagraphStyleAttributeName : [[NSParagraphStyle defaultParagraphStyle] mutableCopy]}];
+            self.labeGIF.attributedText = attrText;
+            self.labeGIF.layer.cornerRadius = 4;
+            self.labeGIF.layer.masksToBounds  = YES;
             self.labeGIF.font=[UIFont systemFontOfSize:13.0];
             self.labeGIF.adjustsFontSizeToFitWidth = YES;
-            //self.labeGIF.textAlignment=NSTextAlignmentRight;
             self.labeGIF.backgroundColor= [[UIColor blackColor] colorWithAlphaComponent:0.4f];
             
             
