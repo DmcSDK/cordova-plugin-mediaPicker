@@ -142,9 +142,9 @@
     PHAsset *asset=_preArray[indexPath.item];//访问已释放的对象
     PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
     option.resizeMode = PHImageRequestOptionsResizeModeFast;
+    option.networkAccessAllowed = YES;
     NSString *fileName =[asset valueForKey:@"filename"];
     NSString * fileExtension = [fileName pathExtension];
-    
     if([@"GIF" caseInsensitiveCompare:fileExtension]){
         cell.gifView.hidden=YES;
         [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:CGSizeMake(SCREEN_WIDTH*3 , SCREENH_HEIGHT*3) contentMode:PHImageContentModeAspectFill options:option                         resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {

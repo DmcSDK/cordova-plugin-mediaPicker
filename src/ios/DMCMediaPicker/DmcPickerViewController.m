@@ -326,7 +326,9 @@
     CollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:identify forIndexPath:indexPath];
     [cell sizeToFit];
     PHAsset *asset=fetchResult[indexPath.item];
-    [_manager requestImageForAsset:asset targetSize:CGSizeMake(200 , 200)  contentMode:PHImageContentModeAspectFill options:nil
+    PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
+    option.networkAccessAllowed = YES;
+    [_manager requestImageForAsset:asset targetSize:CGSizeMake(200 , 200)  contentMode:PHImageContentModeAspectFill options:option
                      resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
                         BOOL downloadFinined = (![[info objectForKey:PHImageCancelledKey] boolValue] && ![info objectForKey:PHImageErrorKey] && ![[info objectForKey:PHImageResultIsDegradedKey] boolValue]);
                         if (downloadFinined && result) { 

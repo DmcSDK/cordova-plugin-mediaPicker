@@ -17,6 +17,9 @@ var MediaPicker = {
     compressEvent:function(s,i) {
         cordova.fireDocumentEvent('MediaPicker.CompressVideoEvent', {'status':s,'index':i});
     },
+    icloudDownloadEvent:function(p,i) {
+        cordova.fireDocumentEvent('MediaPicker.icloudDownloadEvent', {'progress':p,'index':i});
+    },
     compressImage:function(arg0, success, error) {
         exec(success, error, "MediaPicker", "compressImage", [arg0]);
     },

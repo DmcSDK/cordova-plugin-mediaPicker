@@ -67,9 +67,14 @@
 }
 
 -(void)imageToSandbox:(PHAsset *)asset dmcPickerPath:(NSString*)dmcPickerPath aListArray:(NSMutableArray*)aListArray selectArray:(NSMutableArray*)selectArray index:(int)index{
-
-
-    [[PHImageManager defaultManager] requestImageDataForAsset:asset  options:nil resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
+    PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
+    options.networkAccessAllowed = YES;
+    options.resizeMode = PHImageRequestOptionsResizeModeFast;
+    options.progressHandler = ^(double progress, NSError *error, BOOL *stop, NSDictionary *info) {
+        NSString *compressCompletedjs = [NSString stringWithFormat:@"MediaPicker.icloudDownloadEvent(%f,%i)", progress,index];
+        [self.commandDelegate evalJs:compressCompletedjs];
+    };
+    [[PHImageManager defaultManager] requestImageDataForAsset:asset  options:options resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
         NSString *filename=[asset valueForKey:@"filename"];
         NSString *fullpath=[NSString stringWithFormat:@"%@/%@%@", dmcPickerPath,[[NSProcessInfo processInfo] globallyUniqueString], filename];
         NSNumber *size=[NSNumber numberWithLong:imageData.length];
@@ -112,8 +117,14 @@
 
 
 -(void)videoToSandbox:(PHAsset *)asset dmcPickerPath:(NSString*)dmcPickerPath aListArray:(NSMutableArray*)aListArray selectArray:(NSMutableArray*)selectArray index:(int)index{
-
-    [[PHImageManager defaultManager] requestAVAssetForVideo:asset options:nil resultHandler:^(AVAsset *avsset, AVAudioMix *audioMix, NSDictionary *info) {
+    PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
+    options.networkAccessAllowed = YES;
+    options.resizeMode = PHImageRequestOptionsResizeModeFast;
+    options.progressHandler = ^(double progress, NSError *error, BOOL *stop, NSDictionary *info) {
+        NSString *compressCompletedjs = [NSString stringWithFormat:@"MediaPicker.icloudDownloadEvent(%f,%i)", progress,index];
+        [self.commandDelegate evalJs:compressCompletedjs];
+    };
+    [[PHImageManager defaultManager] requestAVAssetForVideo:asset options:options resultHandler:^(AVAsset *avsset, AVAudioMix *audioMix, NSDictionary *info) {
         if ([avsset isKindOfClass:[AVURLAsset class]]) {
             NSString *filename = [asset valueForKey:@"filename"];
             AVURLAsset* urlAsset = (AVURLAsset*)avsset;
