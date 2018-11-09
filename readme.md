@@ -72,7 +72,7 @@ index.js **upload** and **compress** code:
 document.getElementById('uploadBtn').onclick = function() {
     //please:  cordova plugin add cordova-plugin-file-transfer
     //see:  https://github.com/apache/cordova-plugin-file-transfer
-    //use medias[index].path
+    //use medias[index].path //upload original img
 
     //OR
     //compressImage(); //upload compress img
