@@ -98,9 +98,9 @@ document.addEventListener("MediaPicker.CompressVideoEvent", function(data) {
 # More api 其他API
 [API](https://github.com/DmcSDK/cordova-plugin-mediaPicker/blob/master/www/MediaPicker.js) https://github.com/DmcSDK/cordova-plugin-mediaPicker/blob/master/www/MediaPicker.js</br>
 
-[My android source code GitHub:](https://github.com/dmcBig/MediaPickerPoject) https://github.com/dmcBig/MediaPickerPoject</br>
+[My android source code GitHub:](https://github.com/DmcSDK/MediaPickerPoject) https://github.com/dmcBig/MediaPickerPoject</br>
 
-[My IOS source code GitHub:](https://github.com/dmcBig/IOSMediaPicker) https://github.com/dmcBig/IOSMediaPicker</br>
+[My IOS source code GitHub:](https://github.com/DmcSDK/IOSMediaPicker) https://github.com/dmcBig/IOSMediaPicker</br>
 
 # Screenshots
 
