@@ -34,7 +34,6 @@ html code:
         <script type="text/javascript" src="js/index.js"></script>
     </body>
 
-### simple
 index.js **simple** code: 
 ```
 var resultMedias=[];
