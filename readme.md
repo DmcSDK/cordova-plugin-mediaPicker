@@ -24,8 +24,8 @@ html code:
 
     <body>
         <div>
-            <img name="imgView"  width="100px"  height="100px" >
-            <img name="imgView"  width="100px"  height="100px" >
+            <img name="imgView"  height="100px" >
+            <img name="imgView"  height="100px" >
         </div>
         <button id="openBtn">open</button>
         <button id="uploadBtn">upload</button>
