@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-mediapicker-dmcsdk" version="2.3.9">
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-mediapicker-dmcsdk" version="2.4.2">
   <name>MediaPicker</name>
   <js-module name="MediaPicker" src="www/MediaPicker.js">
     <clobbers target="window.MediaPicker"/>
   </js-module>
-
-  <preference name="IOS_PHOTO_LIBRARY_USAGE_DESCRIPTION" />
 
   <platform name="android">
     <config-file parent="/*" target="res/xml/config.xml">
@@ -25,6 +23,7 @@
 
 
   <platform name="ios">
+    <preference name="IOS_PHOTO_LIBRARY_USAGE_DESCRIPTION" />
     <config-file parent="/*" target="config.xml">
       <feature name="MediaPicker">
         <param name="ios-package" value="MediaPicker"/>

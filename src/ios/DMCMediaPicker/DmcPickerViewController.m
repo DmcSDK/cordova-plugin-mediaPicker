@@ -204,8 +204,8 @@
         options.predicate = [NSPredicate predicateWithFormat:@"mediaType == %ld", PHAssetMediaTypeVideo];
     }
     
-    int defaultSelection = 0;
-    int i = 0;
+    int defaultSelection, i = 0; //为了进入选择界面默认显示CameraRoll下的图片
+
     for (PHFetchResult *fetchResult in allAlbums) {
         for (PHAssetCollection *collection in fetchResult) {
             // 有可能是PHCollectionList类的的对象，过滤掉
