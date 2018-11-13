@@ -20,12 +20,12 @@
 /**
  select index
  */
-@property (nonatomic ,assign)NSInteger*   nowIndex;
+@property (nonatomic ,assign)NSInteger nowIndex;
 
 /**
  选择相册之后、传递相册数据源
  */
-@property (nonatomic ,copy)void(^didSelectAlbumBlock)(NSInteger *index);
+@property (nonatomic ,copy)void(^didSelectAlbumBlock)(NSInteger index);
 
--(void)setListDataSource:(NSMutableArray  *)dataSource  dataNameSource:(NSMutableArray  *)names nowSelectAlbum:(NSInteger*)nowIndex ;
+-(void)setListDataSource:(NSMutableArray  *)dataSource  dataNameSource:(NSMutableArray  *)names nowSelectAlbum:(NSInteger)nowIndex ;
 @end
