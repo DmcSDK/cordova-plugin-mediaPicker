@@ -18,7 +18,7 @@
      AlbumListView *albumlistView;
      NSMutableArray  *albumsTitlelist;
      NSMutableArray  * dataSource;
-     NSInteger* nowSelectAlbum;
+     NSInteger nowSelectAlbum;
 }
 
 @property (strong, nonatomic) PHImageManager *manager;
@@ -104,7 +104,7 @@
         [albumlistView setListDataSource:dataSource dataNameSource:albumsTitlelist nowSelectAlbum:nowSelectAlbum];
         __weak DmcPickerViewController* weakSelf = self;
         //设置选择相册之后的block回调
-        [albumlistView setDidSelectAlbumBlock:^(NSInteger *index) {
+        [albumlistView setDidSelectAlbumBlock:^(NSInteger index) {
             
             [weakSelf show:index];
             
@@ -203,7 +203,9 @@
     }else if(self.selectMode==102){
         options.predicate = [NSPredicate predicateWithFormat:@"mediaType == %ld", PHAssetMediaTypeVideo];
     }
-
+    
+    int defaultSelection = 0;
+    int i = 0;
     for (PHFetchResult *fetchResult in allAlbums) {
         for (PHAssetCollection *collection in fetchResult) {
             // 有可能是PHCollectionList类的的对象，过滤掉
@@ -212,23 +214,26 @@
             if (collection.estimatedAssetCount <= 0) continue;
             if (collection.assetCollectionSubtype == PHAssetCollectionSubtypeSmartAlbumAllHidden) continue; //包含隐藏照片或视频的文件夹
             if (collection.assetCollectionSubtype == 1000000201) continue; //『最近删除』相册
- 
+            if (collection.assetCollectionSubtype == PHAssetCollectionSubtypeSmartAlbumUserLibrary) {
+                defaultSelection = i;
+            }
             PHFetchResult *group = [PHAsset fetchAssetsInAssetCollection:collection options:options];
             if([group count]>0){
                 [albumsTitlelist addObject:collection.localizedTitle];
                 [dataSource addObject:group];
+                i++;
             }
-        }    
+        }
     }
-
+    
     _manager = [PHImageManager defaultManager];
-    [self show:0];
+    [self show: defaultSelection];
 }
 
--(void)show:(NSInteger *)index{
+-(void)show:(NSInteger) index {
     if([dataSource count]>0){
-        fetchResult = dataSource[(int)index];
-        [self setTitleView:albumsTitlelist[(int)index]];
+        fetchResult = dataSource[index];
+        [self setTitleView:albumsTitlelist[index]];
         [_collectionView reloadData];
         [self hiddenAlbumlistView];
         [_collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]  atScrollPosition:UICollectionViewScrollPositionTop animated:NO];

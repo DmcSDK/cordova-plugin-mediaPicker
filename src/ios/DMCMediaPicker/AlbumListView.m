@@ -42,18 +42,18 @@
 
 
 #pragma mark - setter
--(void)setListDataSource:(NSMutableArray  *)dataSource  dataNameSource:(NSMutableArray  *)names nowSelectAlbum:(NSInteger*)nowIndex
+-(void)setListDataSource:(NSMutableArray  *)dataSource  dataNameSource:(NSMutableArray  *)names nowSelectAlbum: (NSInteger)nowIndex
 {
     _dataSource=dataSource;
     _dataNameSource=names;
     _nowIndex=nowIndex;
     [self.tableView reloadData];
-    int scrolltoIndex=0;
+    NSInteger scrolltoIndex = 0;
     //下面代码是让下拉选中了有个居中的感觉
-    if((int)_nowIndex>[_dataNameSource count]-4){
-        scrolltoIndex= [_dataNameSource count]-1;
+    if(_nowIndex > [_dataNameSource count]-4){
+        scrolltoIndex = [_dataNameSource count]-1;
     }else{
-        scrolltoIndex=((int)_nowIndex+3);
+        scrolltoIndex=(_nowIndex+3);
     }
     if([_dataNameSource count]>3){
         [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForItem:scrolltoIndex inSection:0]  atScrollPosition:UITableViewScrollPositionBottom animated:NO];
