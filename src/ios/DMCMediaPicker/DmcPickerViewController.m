@@ -8,24 +8,30 @@
 #define fDeviceWidth ([UIScreen mainScreen].bounds.size.width)  //设备高度的宏
 #define fDeviceHeight ([UIScreen mainScreen].bounds.size.height)
 @interface DmcPickerViewController (){
-     UIBarButtonItem *preview;
-     int litemCount;
-     UICollectionViewFlowLayout *flowLayout ;
-     UILabel * titleNameLabel;
-     UIView * titleView;
-     UIButton * titleArrow;
-     UIView * darkView;
-     AlbumListView *albumlistView;
-     NSMutableArray  *albumsTitlelist;
-     NSMutableArray  * dataSource;
-     NSInteger nowSelectAlbum;
+    UIBarButtonItem *preview;
+    int litemCount;
+    UICollectionViewFlowLayout *flowLayout ;
+    UILabel * titleNameLabel;
+    UIView * titleView;
+    UIButton * titleArrow;
+    UIView * darkView;
+    AlbumListView *albumlistView;
+    NSMutableArray  *albumsTitlelist;
+    NSMutableArray  * dataSource;
+    NSInteger nowSelectAlbum;
 }
-
+    
 @property (strong, nonatomic) PHImageManager *manager;
 @end
 
 @implementation DmcPickerViewController
-    
+
+- (instancetype)initWithCallbackId:(NSString *)callbackId {
+    self = [super init];
+    self.callbackId = callbackId;
+    return self;
+}
+
 - (void)viewDidLoad {
     //init config
     self.maxSelectCount=self.maxSelectCount>0?self.maxSelectCount:15;
@@ -54,9 +60,9 @@
     [self setBtnStatus];
     [self.view addSubview:self.collectionView];
 }
-
+    
 -(void)setTitleView:(NSString *) title{
-
+    
     float arrowHeight=self.navigationController.navigationBar.frame.size.height/3;
     if(!titleNameLabel){
         titleNameLabel=[[UILabel alloc]initWithFrame:CGRectMake(0, 0, 0, self.navigationController.navigationBar.frame.size.height)];
@@ -84,15 +90,15 @@
     }
     titleNameLabel.text=title;
     [titleNameLabel sizeToFit];
-
+    
     titleView.frame=CGRectMake(0, 0, titleNameLabel.frame.size.width+arrowHeight+2, self.navigationController.navigationBar.frame.size.height);
     titleNameLabel.center=CGPointMake(titleNameLabel.bounds.size.width/2,titleView.bounds.size.height/2);
     titleArrow.frame=CGRectMake(titleNameLabel.frame.size.width+2, 0, arrowHeight, arrowHeight);
     titleArrow.center=CGPointMake(titleNameLabel.frame.size.width+arrowHeight/2+2,titleView.bounds.size.height/2);
 }
-
+    
 - (void)titleTap:(UITapGestureRecognizer *)tap {
-
+    
     if(!albumlistView){
         CGFloat y=self.navigationController.navigationBar.frame.origin.y+self.navigationController.navigationBar.frame.size.height;
         darkView=[[UIView alloc]initWithFrame:CGRectMake(0, y, self.navigationController.navigationBar.frame.size.width, fDeviceHeight)];
@@ -111,24 +117,24 @@
         }];
         [self.view addSubview:albumlistView];
         titleArrow.selected=YES;
-//        albumlist.transform = CGAffineTransformScale(CGAffineTransformIdentity,self.navigationController.navigationBar.frame.size.width, CGFLOAT_MIN);
-//        [UIView animateWithDuration:0.8 animations:^{
-//            albumlist.transform =  CGAffineTransformScale(CGAffineTransformIdentity,self.navigationController.navigationBar.frame.size.width, 1.0);
-//        }];
-//        self.navigationController.toolbar.alpha=0.4;
+        //        albumlist.transform = CGAffineTransformScale(CGAffineTransformIdentity,self.navigationController.navigationBar.frame.size.width, CGFLOAT_MIN);
+        //        [UIView animateWithDuration:0.8 animations:^{
+        //            albumlist.transform =  CGAffineTransformScale(CGAffineTransformIdentity,self.navigationController.navigationBar.frame.size.width, 1.0);
+        //        }];
+        //        self.navigationController.toolbar.alpha=0.4;
         [self.navigationController  setToolbarHidden:YES  animated:YES];
         
     }else{
         [self hiddenAlbumlistView];
     }
 }
-
+    
 - (void)darkViewTap:(UITapGestureRecognizer *)tap {
     darkView.hidden=YES;
     [self hiddenAlbumlistView];
 }
-
-
+    
+    
 -(void)hiddenAlbumlistView{
     titleArrow.selected=NO;
     [darkView setHidden:YES];
@@ -137,7 +143,7 @@
     darkView=nil;
     [self.navigationController  setToolbarHidden:NO  animated:YES];
 }
-
+    
     
 -(void) preview{
     PreviewViewController * dmc=[[PreviewViewController alloc] init];
@@ -147,14 +153,15 @@
 }
     
 -(void) done{
-    [self._delegate resultPicker:selectArray];
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self._delegate resultPicker:selectArray
+                      withCallback:self.callbackId];
 }
     
 -(void) cancel{
     NSMutableArray *nilArray=[[NSMutableArray alloc] init];
-    [self._delegate resultPicker:nilArray];
-    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    [self._delegate resultPicker:nilArray
+                      withCallback:self.callbackId];
 }
     
 -(void)requestPermission{
@@ -184,7 +191,7 @@
     selectArray=[[NSMutableArray alloc] init];
     albumsTitlelist=[[NSMutableArray alloc] init];
     dataSource=[[NSMutableArray alloc] init];
-   
+    
     
     //获取相册
     PHFetchResult *smartAlbums = [PHAssetCollection       fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum
@@ -197,7 +204,7 @@
     
     PHFetchOptions *options = [[PHFetchOptions alloc] init];
     options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO]];
-
+    
     if(self.selectMode==100){
         options.predicate = [NSPredicate predicateWithFormat:@"mediaType == %ld", PHAssetMediaTypeImage];
     }else if(self.selectMode==102){
@@ -229,7 +236,7 @@
     _manager = [PHImageManager defaultManager];
     [self show: defaultSelection];
 }
-
+    
 -(void)show:(NSInteger) index {
     if([dataSource count]>0){
         fetchResult = dataSource[index];
@@ -240,73 +247,73 @@
         nowSelectAlbum=index;
     }
 }
-
-
-// TO DO
-//- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
-//
-//    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
-//    [coordinator animateAlongsideTransition:^(id  _Nonnull context) {
-//        [_collectionView.collectionViewLayout invalidateLayout];
-//        [UIView performWithoutAnimation:^{
-//            CGFloat w= [UIScreen mainScreen].bounds.size.width;
-//            CGFloat h= [UIScreen mainScreen].bounds.size.height;
-//            _collectionView.frame=CGRectMake(0, 0,w, h);
-//
-//            flowLayout.itemSize =CGSizeMake((w-(litemCount-1))/litemCount, (w-(litemCount-1))/litemCount);
-//
-//            [_collectionView setCollectionViewLayout:flowLayout];
-//
-//            [_collectionView layoutIfNeeded];
-//        }];
-//        [UIView performWithoutAnimation:^{
-//
-//            [_collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:0 inSection:0]]];
-//        }];
-//    } completion:^(id  _Nonnull context) {
-//
-//    }];
-//}
-
+    
+    
+    // TO DO
+    //- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    //
+    //    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    //    [coordinator animateAlongsideTransition:^(id  _Nonnull context) {
+    //        [_collectionView.collectionViewLayout invalidateLayout];
+    //        [UIView performWithoutAnimation:^{
+    //            CGFloat w= [UIScreen mainScreen].bounds.size.width;
+    //            CGFloat h= [UIScreen mainScreen].bounds.size.height;
+    //            _collectionView.frame=CGRectMake(0, 0,w, h);
+    //
+    //            flowLayout.itemSize =CGSizeMake((w-(litemCount-1))/litemCount, (w-(litemCount-1))/litemCount);
+    //
+    //            [_collectionView setCollectionViewLayout:flowLayout];
+    //
+    //            [_collectionView layoutIfNeeded];
+    //        }];
+    //        [UIView performWithoutAnimation:^{
+    //
+    //            [_collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:0 inSection:0]]];
+    //        }];
+    //    } completion:^(id  _Nonnull context) {
+    //
+    //    }];
+    //}
+    
 #pragma mark - 创建collectionView并设置代理
 - (UICollectionView *)collectionView
-{
-    if (_collectionView == nil) {
-        
-        flowLayout = [[UICollectionViewFlowLayout alloc] init];
-        
-        
-        _collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 0, fDeviceWidth, fDeviceHeight) collectionViewLayout:flowLayout];
-        
-        litemCount=3;
-        if([[UIDevice currentDevice].model isEqualToString:@"iPad"]){
-            litemCount=8;
+    {
+        if (_collectionView == nil) {
+            
+            flowLayout = [[UICollectionViewFlowLayout alloc] init];
+            
+            
+            _collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 0, fDeviceWidth, fDeviceHeight) collectionViewLayout:flowLayout];
+            
+            litemCount=3;
+            if([[UIDevice currentDevice].model isEqualToString:@"iPad"]){
+                litemCount=8;
+            }
+            //定义每个UICollectionView 的大小
+            flowLayout.itemSize = CGSizeMake((fDeviceWidth-(litemCount-1))/litemCount, (fDeviceWidth-(litemCount-1))/litemCount);
+            //定义每个UICollectionView 横向的间距
+            flowLayout.minimumLineSpacing = 1;
+            //定义每个UICollectionView 纵向的间距
+            flowLayout.minimumInteritemSpacing = 1;
+            //定义每个UICollectionView 的边距距
+            flowLayout.sectionInset = UIEdgeInsetsMake(0, 0, 5, 0);//上左下右
+            
+            //注册cell和ReusableView（相当于头部）
+            [_collectionView registerClass:[CollectionViewCell class] forCellWithReuseIdentifier:@"cell"];
+            //[_collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"ReusableView"];
+            
+            //设置代理
+            _collectionView.delegate = self;
+            _collectionView.dataSource = self;
+            
+            //背景颜色
+            _collectionView.backgroundColor = [UIColor whiteColor];
+            //自适应大小
+            _collectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+            
         }
-        //定义每个UICollectionView 的大小
-        flowLayout.itemSize = CGSizeMake((fDeviceWidth-(litemCount-1))/litemCount, (fDeviceWidth-(litemCount-1))/litemCount);
-        //定义每个UICollectionView 横向的间距
-        flowLayout.minimumLineSpacing = 1;
-        //定义每个UICollectionView 纵向的间距
-        flowLayout.minimumInteritemSpacing = 1;
-        //定义每个UICollectionView 的边距距
-        flowLayout.sectionInset = UIEdgeInsetsMake(0, 0, 5, 0);//上左下右
-        
-        //注册cell和ReusableView（相当于头部）
-        [_collectionView registerClass:[CollectionViewCell class] forCellWithReuseIdentifier:@"cell"];
-        //[_collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"ReusableView"];
-        
-        //设置代理
-        _collectionView.delegate = self;
-        _collectionView.dataSource = self;
-        
-        //背景颜色
-        _collectionView.backgroundColor = [UIColor whiteColor];
-        //自适应大小
-        _collectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        
+        return _collectionView;
     }
-    return _collectionView;
-}
     
     
     
@@ -314,62 +321,62 @@
 #pragma mark - UICollectionView delegate dataSource
 #pragma mark 定义展示的UICollectionViewCell的个数
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
-{
-    return fetchResult.count;
-}
+    {
+        return fetchResult.count;
+    }
     
 #pragma mark 定义展示的Section的个数
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
-{
-    return 1;
-}
+    {
+        return 1;
+    }
     
 #pragma mark 每个UICollectionView展示的内容
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *identify = @"cell";
-    CollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:identify forIndexPath:indexPath];
-    [cell sizeToFit];
-    PHAsset *asset=fetchResult[indexPath.item];
-    PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
-    option.networkAccessAllowed = YES;
-    [_manager requestImageForAsset:asset targetSize:CGSizeMake(200 , 200)  contentMode:PHImageContentModeAspectFill options:option
-                     resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
-                        BOOL downloadFinined = (![[info objectForKey:PHImageCancelledKey] boolValue] && ![info objectForKey:PHImageErrorKey] && ![[info objectForKey:PHImageResultIsDegradedKey] boolValue]);
-                        if (downloadFinined && result) { 
-                            cell.imgView.image = result;
-                        }
-                     }];
-    NSInteger i=[self isSelect:asset];
-    if(asset.mediaType==PHAssetMediaTypeVideo){
-        cell.labelL.hidden=NO;
-        cell.labelR.hidden=NO;
-        cell.labeGIF.hidden=YES;
+    {
+        static NSString *identify = @"cell";
+        CollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:identify forIndexPath:indexPath];
+        [cell sizeToFit];
+        PHAsset *asset=fetchResult[indexPath.item];
+        PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
+        option.networkAccessAllowed = YES;
+        [_manager requestImageForAsset:asset targetSize:CGSizeMake(200 , 200)  contentMode:PHImageContentModeAspectFill options:option
+                         resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+                             BOOL downloadFinined = (![[info objectForKey:PHImageCancelledKey] boolValue] && ![info objectForKey:PHImageErrorKey] && ![[info objectForKey:PHImageResultIsDegradedKey] boolValue]);
+                             if (downloadFinined && result) {
+                                 cell.imgView.image = result;
+                             }
+                         }];
+        NSInteger i=[self isSelect:asset];
+        if(asset.mediaType==PHAssetMediaTypeVideo){
+            cell.labelL.hidden=NO;
+            cell.labelR.hidden=NO;
+            cell.labeGIF.hidden=YES;
+            
+            NSString *dtime=[NSString stringWithFormat:@"%.0f",asset.duration];
+            cell.labelL.text = [@" "stringByAppendingString:NSLocalizedString(@"Video",nil)];
+            //Uilable默认会去除尾部空格所以处理一下
+            NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+            style.tailIndent = -3.0f;
+            style.alignment=NSTextAlignmentRight;
+            NSString *dtimeStr=[self getNewTimeFromDurationSecond:dtime.integerValue];
+            NSAttributedString *attrTextR = [[NSAttributedString alloc] initWithString:dtimeStr attributes:@{ NSParagraphStyleAttributeName : style}];
+            cell.labelR.attributedText=attrTextR;
+        }else{
+            NSString *fileName =[asset valueForKey:@"filename"];
+            NSString * fileExtension = [fileName pathExtension];
+            cell.labeGIF.hidden=[@"GIF" caseInsensitiveCompare:fileExtension]?YES:NO;
+            cell.labelL.hidden=YES;
+            cell.labelR.hidden=YES;
+        }
         
-        NSString *dtime=[NSString stringWithFormat:@"%.0f",asset.duration];
-        cell.labelL.text = [@" "stringByAppendingString:NSLocalizedString(@"Video",nil)];
-        //Uilable默认会去除尾部空格所以处理一下
-        NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-        style.tailIndent = -3.0f;
-        style.alignment=NSTextAlignmentRight;
-        NSString *dtimeStr=[self getNewTimeFromDurationSecond:dtime.integerValue];
-        NSAttributedString *attrTextR = [[NSAttributedString alloc] initWithString:dtimeStr attributes:@{ NSParagraphStyleAttributeName : style}];
-        cell.labelR.attributedText=attrTextR;
-    }else{
-        NSString *fileName =[asset valueForKey:@"filename"];
-        NSString * fileExtension = [fileName pathExtension];
-        cell.labeGIF.hidden=[@"GIF" caseInsensitiveCompare:fileExtension]?YES:NO;
-        cell.labelL.hidden=YES;
-        cell.labelR.hidden=YES;
+        if(i<0){
+            [self hidenSelectView:cell];
+        }else{
+            [self showSelectView:cell];
+        }
+        return cell;
     }
-    
-    if(i<0){
-        [self hidenSelectView:cell];
-    }else{
-        [self showSelectView:cell];
-    }
-    return cell;
-}
     
     
     //UICollectionView被选中时调用的方法
@@ -418,32 +425,32 @@
 }
     
 -(void) previewResultPicker:(NSMutableArray*) srray
-{
-    selectArray=srray;
-    [self setBtnStatus];
-    [_collectionView reloadData];
-}
-
+    {
+        selectArray=srray;
+        [self setBtnStatus];
+        [_collectionView reloadData];
+    }
+    
 -(void) previewDonePicker:(NSMutableArray*) srray
-{
-    [self._delegate resultPicker:srray];
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
+    {
+        [self._delegate resultPicker:srray withCallback:self.callbackId];
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
     
 -(NSInteger)isSelect:(PHAsset *)asset
-{
-    int is=-1;
-    if([selectArray count]<=0){
+    {
+        int is=-1;
+        if([selectArray count]<=0){
+            return is;
+        }
+        for(NSInteger i=0;i<[selectArray count];i++){
+            PHAsset *now=selectArray[i];
+            if ([asset.localIdentifier isEqualToString:now.localIdentifier]) {
+                return i;
+            }
+        }
         return is;
     }
-    for(NSInteger i=0;i<[selectArray count];i++){
-        PHAsset *now=selectArray[i];
-        if ([asset.localIdentifier isEqualToString:now.localIdentifier]) {
-            return i;
-        }
-    }
-    return is;
-}
     
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -476,5 +483,5 @@
     }
     return newTime;
 }
-
-@end
+    
+    @end
