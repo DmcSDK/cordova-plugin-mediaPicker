@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="library_name">MediaPicker</string>
+    <string name="all_dir_name">Tümü</string>
+    <string name="all_video">Tüm Videolar</string>
+    <string name="all_image">Tüm Fotoğraflar</string>
+    <string name="select_title">Fotoğraf ve Video Seç</string>
+    <string name="select_video_title">Video Seç</string>
+    <string name="select_image_title">Fotoğraf Seç</string>
+    <string name="video_dir_name">Tüm Videolar</string>
+    <string name="msg_amount_limit">Maksimum seçime ulaşıldı!</string>
+    <string name="msg_size_limit">Maksimum dosya boyutu aşıldı!</string>
+    <string name="select_null">Lütfen seçim yapın</string>
+    <string name="done">Bitti</string>
+    <string name="count_string"></string>
+    <string name="preview">Ön izleme</string>
+    <string name="select">Seç</string>
+    <string name="video">Video</string>
+    <string name="cant_play_video">Oynatılamıyor!</string>
+    <string name="READ_EXTERNAL_STORAGE">Lütfen uygulamaya erişim izni verin.</string>
+</resources>

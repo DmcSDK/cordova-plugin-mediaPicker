@@ -19,8 +19,8 @@
     </config-file>
     <framework src="com.dmcBig:mediapicker:+"/>
     <source-file src="src/android/MediaPicker.java" target-dir="src/com/dmc/mediaPickerPlugin"/>
+    <resource-file src="src/android/Library/res/values-tr/multiimagechooser_strings_tr.xml" target="res/values-tr/multiimagechooser_strings_tr.xml"/>
   </platform>
-
 
   <platform name="ios">
     <preference name="IOS_PHOTO_LIBRARY_USAGE_DESCRIPTION" />
@@ -52,6 +52,7 @@
     <resource-file src="src/ios/DMCMediaPicker/es.lproj"/>
     <resource-file src="src/ios/DMCMediaPicker/pt-BR.lproj"/>
     <resource-file src="src/ios/DMCMediaPicker/pt-PT.lproj"/>
+    <resource-file src="src/ios/DMCMediaPicker/tr.lproj"/>
     <config-file target="*-Info.plist" parent="NSPhotoLibraryUsageDescription">
       <string>$IOS_PHOTO_LIBRARY_USAGE_DESCRIPTION</string>
     </config-file>  
