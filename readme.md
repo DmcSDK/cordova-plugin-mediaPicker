@@ -34,7 +34,7 @@ html code:
         <script type="text/javascript" src="js/index.js"></script>
     </body>
 
-index.js **simple** code: 
+demo.js **simple** code: 
 ```
 var resultMedias=[];
 var imgs = document.getElementsByName('imgView');
@@ -67,7 +67,7 @@ function loadingUI() {}
 ```    
 
 ### upload and compress 上传 和 压缩
-index.js **upload** and **compress** code:
+demo.js **upload** and **compress** code:
 ```
 document.getElementById('uploadBtn').onclick = function() {
     //please:  cordova plugin add cordova-plugin-file-transfer
@@ -96,17 +96,17 @@ document.addEventListener("MediaPicker.CompressVideoEvent", function(data) {
 ```    
 
 ### takePhoto 拍照 
-index.js **takePhoto** code:
+demo.js **takePhoto** code:
 ```
 //please add : cordova plugin add cordova-plugin-camera
 document.getElementById('takePhotoBtn').onclick = function() {
     //cameraOptions docs https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-camera/index.html#camera
     var cameraOptions={ quality: 25,mediaType: Camera.MediaType.PICTURE };
     MediaPicker.takePhoto(function(media) {
-                              media.index=0;//index use to imgs[data.index].src; // media.index=resultMedias.length;
-                              resultMedias.push(media);
-                              getThumbnail(resultMedias);
-                          }, function(e) { console.log(e) }, cameraOptions);
+            media.index=0;//index use to imgs[data.index].src; // media.index=resultMedias.length;
+            resultMedias.push(media);
+            getThumbnail(resultMedias);
+      }, function(e) { console.log(e) }, cameraOptions);
 };
 ```    
 
