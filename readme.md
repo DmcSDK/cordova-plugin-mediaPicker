@@ -96,7 +96,6 @@ document.addEventListener("MediaPicker.CompressVideoEvent", function(data) {
 ```    
 
 ### takePhoto 拍照 
-please add : cordova plugin add cordova-plugin-camera
 index.js **takePhoto** code:
 ```
 //please add : cordova plugin add cordova-plugin-camera
