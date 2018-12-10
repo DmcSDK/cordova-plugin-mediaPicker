@@ -97,11 +97,12 @@ document.addEventListener("MediaPicker.CompressVideoEvent", function(data) {
 
 ### takePhoto 拍照 
 demo.js **takePhoto** code:
+
+cameraOptions docs: https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-camera/index.html#camera
 ```
 //please add : cordova plugin add cordova-plugin-camera
 document.getElementById('takePhotoBtn').onclick = function() {
-    //cameraOptions docs https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-camera/index.html#camera
-    var cameraOptions={ quality: 25,mediaType: Camera.MediaType.PICTURE };
+    var cameraOptions={ quality: 25,mediaType: Camera.MediaType.PICTURE };//see cordova camera docs
     MediaPicker.takePhoto(function(media) {
             media.index=0;//index use to imgs[data.index].src; // media.index=resultMedias.length;
             resultMedias.push(media);
