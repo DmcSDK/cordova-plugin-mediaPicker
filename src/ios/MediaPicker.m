@@ -321,5 +321,51 @@
     [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArrayBuffer:result]callbackId:command.callbackId];
 }
 
+- (void)getFileInfo:(CDVInvokedUrlCommand*)command
+{
+    callbackId=command.callbackId;
+    NSString *type= [command.arguments objectAtIndex: 1];
+    NSURL *url;
+    NSString *path;
+    if([type isEqualToString:@"uri"]){
+        NSString *str=[command.arguments objectAtIndex: 0];
+        url = [NSURL URLWithString:str];
+        path= url.path;
+    }else{
+        path= [command.arguments objectAtIndex: 0];
+        url =  [NSURL fileURLWithPath:path];
+    }
+    NSMutableDictionary *options = [NSMutableDictionary dictionaryWithCapacity:5];
+    [options setObject:path forKey:@"path"];
+    [options setObject:url.absoluteString forKey:@"uri"];
+
+    NSNumber * size = [NSNumber numberWithUnsignedLongLong:[[[NSFileManager defaultManager] attributesOfItemAtPath:path error:nil] fileSize]];
+    [options setObject:size forKey:@"size"];
+    NSString *fileName = [[NSFileManager defaultManager] displayNameAtPath:path];
+    [options setObject:fileName forKey:@"name"];
+    if([[self getMIMETypeURLRequestAtPath:path] containsString:@"video"]){
+        [options setObject:@"video" forKey:@"mediaType"];
+    }else{
+        [options setObject:@"image" forKey:@"mediaType"];
+    }
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:options] callbackId:callbackId];
+}
+
+
+-(NSString *)getMIMETypeURLRequestAtPath:(NSString*)path
+{
+    //1.确定请求路径
+    NSURL *url = [NSURL fileURLWithPath:path];
+    
+    //2.创建可变的请求对象
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    
+    //3.发送请求
+    NSHTTPURLResponse *response = nil;
+    [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
+    
+    NSString *mimeType = response.MIMEType;
+    return mimeType;
+}
 
 @end

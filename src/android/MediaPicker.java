@@ -1,22 +1,21 @@
 package com.dmc.mediaPickerPlugin;
 
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.media.ThumbnailUtils;
+import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Base64;
-import android.net.Uri;
 import android.util.Log;
 
 import com.dmcbig.mediapicker.PickerActivity;
 import com.dmcbig.mediapicker.PickerConfig;
-import com.dmcbig.mediapicker.entity.Media;
 import com.dmcbig.mediapicker.TakePhotoActivity;
+import com.dmcbig.mediapicker.entity.Media;
+
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.json.JSONArray;
@@ -28,6 +27,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -65,6 +65,9 @@ public class MediaPicker extends CordovaPlugin {
             return true;
         }else if(action.equals("getExifForKey")){
             this.getExifForKey(args.getString(0),args.getString(1),callbackContext);
+            return true;
+        }else if(action.equals("getFileInfo")){
+            this.getFileInfo(args,callbackContext);
             return true;
         }
         return false;
@@ -246,6 +249,31 @@ public class MediaPicker extends CordovaPlugin {
             }
         } catch (Exception e) {
             callbackContext.error("compressImage error"+e);
+            e.printStackTrace();
+        }
+    }
+
+    public void  getFileInfo( JSONArray args, CallbackContext callbackContext){
+        this.callback=callbackContext;
+        try {
+            String type=args.getString(1);
+            File file;
+            if("uri".equals(type)){
+                file=new File(FileHelper.getRealPath(args.getString(0),cordova));
+            }else{
+                file=new File(args.getString(0));
+            }
+            JSONObject jsonObject=new JSONObject();
+            jsonObject.put("path", file.getPath());
+            jsonObject.put("uri", Uri.fromFile(new File(file.getPath())));
+            jsonObject.put("size", file.length());
+            jsonObject.put("name", file.getName());
+            String mimeType = FileHelper.getMimeType(jsonObject.getString("uri"),cordova);
+            String mediaType = mimeType.indexOf("video")!=-1?"video":"image";
+            jsonObject.put("mediaType",mediaType);
+            callbackContext.success(jsonObject);
+        } catch (Exception e) {
+            callbackContext.error("getFileInfo error"+e);
             e.printStackTrace();
         }
     }
