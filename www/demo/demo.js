@@ -44,6 +44,14 @@ function compressImage() {
     }
 }
 
+document.getElementById('takePhotoBtn').onclick = function() {
+    var cameraOptions={ quality: 25,mediaType: Camera.MediaType.PICTURE };//see cordova camera docs
+    MediaPicker.takePhoto(function(media) {
+            media.index=0;//index use to imgs[data.index].src; // media.index=resultMedias.length;
+            resultMedias.push(media);
+            getThumbnail(resultMedias);
+      }, function(e) { console.log(e) }, cameraOptions);
+};
 
 function loading() {}
 
