@@ -1,6 +1,6 @@
 # MediaPicker v:2.3.0 
 
-android ios mediaPicker support  selection of multiple image and video gif  (Support Chinese English Spanish Portuguese)</br>
+android ios mediaPicker support  selection of multiple image and video gif  (Support Chinese, English, Spanish, Portuguese, and Turkish)</br>
 
 android 和 ios cordova图片视频选择插件，支持多图 视频 gif，ui类似微信。 联系QQ：3451927565</br>
 
