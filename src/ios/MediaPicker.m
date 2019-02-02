@@ -111,8 +111,6 @@
     NSString* orientation=[nsdic objectForKey:key];
    
     [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:orientation] callbackId:callbackId];
-
-
 }
 
 
