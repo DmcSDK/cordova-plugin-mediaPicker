@@ -40,7 +40,7 @@
             self.labeGIF.attributedText = attrText;
             self.labeGIF.layer.cornerRadius = 4;
             self.labeGIF.layer.masksToBounds  = YES;
-            self.labeGIF.font=[UIFont systemFontOfSize:13.0];
+            self.labeGIF.font=[UIFont systemFontOfSize:(labeH-5)*0.68];
             self.labeGIF.adjustsFontSizeToFitWidth = YES;
             self.labeGIF.backgroundColor= [[UIColor blackColor] colorWithAlphaComponent:0.4f];
             
