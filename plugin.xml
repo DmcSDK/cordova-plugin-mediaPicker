@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-mediapicker-dmcsdk" version="2.4.4">
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-mediapicker-dmcsdk" version="2.4.5">
   <name>MediaPicker</name>
   <js-module name="MediaPicker" src="www/MediaPicker.js">
     <clobbers target="window.MediaPicker"/>
@@ -21,6 +21,7 @@
     <source-file src="src/android/MediaPicker.java" target-dir="src/com/dmc/mediaPickerPlugin"/>
     <source-file src="src/android/FileHelper.java" target-dir="src/com/dmc/mediaPickerPlugin"/>
     <resource-file src="src/android/Library/res/values-tr/multiimagechooser_strings_tr.xml" target="res/values-tr/multiimagechooser_strings_tr.xml"/>
+    <resource-file src="src/android/Library/res/values-de/multiimagechooser_strings_de.xml" target="res/values-de/multiimagechooser_strings_de.xml"/>
   </platform>
 
   <platform name="ios">
@@ -54,6 +55,7 @@
     <resource-file src="src/ios/DMCMediaPicker/pt-BR.lproj"/>
     <resource-file src="src/ios/DMCMediaPicker/pt-PT.lproj"/>
     <resource-file src="src/ios/DMCMediaPicker/tr.lproj"/>
+    <resource-file src="src/ios/DMCMediaPicker/de.lproj"/>
     <config-file target="*-Info.plist" parent="NSPhotoLibraryUsageDescription">
       <string>$IOS_PHOTO_LIBRARY_USAGE_DESCRIPTION</string>
     </config-file>  
