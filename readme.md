@@ -66,12 +66,12 @@ function loadingUI() {}
 demo.js **upload** and **compress** code:
 ```
 document.getElementById('uploadBtn').onclick = function() {
-    //please:  cordova plugin add cordova-plugin-file-transfer
-    //see:  https://github.com/apache/cordova-plugin-file-transfer
-    //use medias[index].path //upload original img
-
+    //1.please:  cordova plugin add cordova-plugin-file-transfer
+    //2.see:  https://github.com/apache/cordova-plugin-file-transfer
+    
+    //3.use medias[index].path //upload original img
     //OR
-    //compressImage(); //upload compress img
+    //3.compressImage(); //upload compress img
 };
 
 function compressImage() {
