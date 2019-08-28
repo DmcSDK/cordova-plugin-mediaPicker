@@ -1,6 +1,6 @@
-# MediaPicker v:2.4.3
+# MediaPicker v:2.3.0 
 
-android ios mediaPicker support  selection of multiple image and video gif  (Support Chinese, English, Spanish, Portuguese, and Turkish)</br>
+android ios mediaPicker support  selection of multiple image and video gif  (Support Chinese English Spanish Portuguese)</br>
 
 android 和 ios cordova图片视频选择插件，支持多图 视频 gif，ui类似微信。 联系QQ：3451927565</br>
 
@@ -12,6 +12,10 @@ android 和 ios cordova图片视频选择插件，支持多图 视频 gif，ui�
 use npm OR github:
 
 ```
+  cordova plugin add cordova-plugin-mediapicker-dmcsdk --variable IOS_PHOTO_LIBRARY_USAGE_DESCRIPTION="your usage message"
+
+  or
+
   cordova plugin add https://github.com/DmcSDK/cordova-plugin-mediaPicker.git --variable IOS_PHOTO_LIBRARY_USAGE_DESCRIPTION="your usage message"
 ```
 
@@ -37,7 +41,7 @@ var imgs = document.getElementsByName('imgView');
 var args = {
     'selectMode': 101, //101=picker image and video , 100=image , 102=video
     'maxSelectCount': 40, //default 40 (Optional)
-    'maxSelectSize': 188743680, //188743680=180M (Optional) only android
+    'maxSelectSize': 188743680, //188743680=180M (Optional)
 };
 
 document.getElementById('openBtn').onclick = function() {
@@ -66,12 +70,12 @@ function loadingUI() {}
 demo.js **upload** and **compress** code:
 ```
 document.getElementById('uploadBtn').onclick = function() {
-    //1.please:  cordova plugin add cordova-plugin-file-transfer
-    //2.see:  https://github.com/apache/cordova-plugin-file-transfer
-    
-    //3.use medias[index].path //upload original img
+    //please:  cordova plugin add cordova-plugin-file-transfer
+    //see:  https://github.com/apache/cordova-plugin-file-transfer
+    //use medias[index].path //upload original img
+
     //OR
-    //3.compressImage(); //upload compress img
+    //compressImage(); //upload compress img
 };
 
 function compressImage() {

@@ -21,13 +21,13 @@
             CGFloat labelH=width/6;
             self.labelL = [[UILabel alloc]initWithFrame:CGRectMake(0, width-labelH, width/2, labelH)];
             self.labelL.textColor=[UIColor whiteColor];
-            self.labelL.font=[UIFont systemFontOfSize:(labelH-5)*0.68];
+            self.labelL.font=[UIFont systemFontOfSize:13.0];
             self.labelL.backgroundColor= [[UIColor blackColor] colorWithAlphaComponent:0.3f];
             
             
             self.labelR = [[UILabel alloc]initWithFrame:CGRectMake(width/2, width-labelH, width/2, labelH)];
             self.labelR.textColor=[UIColor whiteColor];
-            self.labelR.font=[UIFont systemFontOfSize:(labelH-5)*0.68];
+            self.labelR.font=[UIFont systemFontOfSize:13.0];
             //self.labelR.textAlignment=NSTextAlignmentRight;
             self.labelR.backgroundColor= [[UIColor blackColor] colorWithAlphaComponent:0.3f];
             
@@ -40,7 +40,7 @@
             self.labeGIF.attributedText = attrText;
             self.labeGIF.layer.cornerRadius = 4;
             self.labeGIF.layer.masksToBounds  = YES;
-            self.labeGIF.font=[UIFont systemFontOfSize:(labelH-5)*0.68];
+            self.labeGIF.font=[UIFont systemFontOfSize:13.0];
             self.labeGIF.adjustsFontSizeToFitWidth = YES;
             self.labeGIF.backgroundColor= [[UIColor blackColor] colorWithAlphaComponent:0.4f];
             
