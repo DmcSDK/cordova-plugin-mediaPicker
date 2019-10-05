@@ -17,4 +17,5 @@
 @property (nonatomic, assign) NSInteger maxSelectCount;
 //'selectMode':101,//101=PICKER_IMAGE_VIDEO , 100=PICKER_IMAGE , 102=PICKER_VIDEO
 @property (nonatomic, assign) NSInteger selectMode;
+@property (nonatomic, assign) NSInteger maxSelectSize;
 @end

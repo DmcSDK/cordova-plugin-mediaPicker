@@ -2,7 +2,8 @@
 "Done"="Bitti";
 "All"="Tümü";
 "Video"="Video";
-"maxSelectAlert"="Maksimum seçime ulaşıldı!";
+"maxSelectAlert"="Sadece %d görüntü seçebilirsiniz";
+"maxSizeAlert"="Yalnızca %.02f mb boyutunda olan resimleri seçebilirsiniz";
 "ok"="Tamam";
 "Unable to access album" = "Galerinize erişilemiyor";
 "Please allow to access your album" = "Lütfen \"Ayarlar -> Gizlilik -> Fotoğraflar\" menüsünden uygulamaya erişim izni verin.";

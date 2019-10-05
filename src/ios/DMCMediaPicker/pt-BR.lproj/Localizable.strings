@@ -2,7 +2,8 @@
 "Done"="Pronto";
 "All"="Todas as fotos";
 "Video"="Vídeo";
-"maxSelectAlert"="Atingiu o limite máximo de escolhas";
+"maxSelectAlert"="Você só pode selecionar %d imagens";
+"maxSizeAlert"="Você só pode selecionar imagens com tamanho de até %.02f mb";
 "ok"="OK";
 "Unable to access album" = "Impossibilitado de acessar o álbum";
 "Please allow to access your album" = "Por favor permita acessar o seu álbum em \“Configurações -> Privacidade -> Álbum\"";
