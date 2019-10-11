@@ -29,6 +29,7 @@
 - (void)viewDidLoad {
     //init config
     self.maxSelectCount=self.maxSelectCount>0?self.maxSelectCount:15;
+    self.maxSelectSize=self.maxSelectSize>0?self.maxSelectSize:1048576;
     self.selectMode=self.selectMode>0?self.selectMode:101;
     //config end
     
@@ -379,12 +380,14 @@
     NSInteger i=[self isSelect:asset];
     CollectionViewCell *cell = (CollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
     
-    if([selectArray count]>=self.maxSelectCount&&i<0){
+    if([selectArray count] >= self.maxSelectCount && i < 0){
         [self alertMax];
     }else{
-        if([selectArray count]>self.maxSelectCount){
+        if([selectArray count] > self.maxSelectCount){
             [self alertMax];
-        }else{
+        }else if([self assetFileSize:asset] > self.maxSelectSize) {
+            [self alertSize];
+        } else {
             i<0?[selectArray addObject:asset]:[selectArray removeObject:asset];
             i<0?[self showSelectView:cell]:[self hidenSelectView:cell];
         }
@@ -429,7 +432,40 @@
     [self._delegate resultPicker:srray];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
-    
+
+-(long) assetFileSize:(PHAsset *)asset
+{
+	__block long imageSize = 0;
+
+	if(asset.mediaType == PHAssetMediaTypeVideo) {
+		PHVideoRequestOptions *options = [[PHVideoRequestOptions alloc] init];
+		options.version = PHVideoRequestOptionsVersionOriginal;
+
+		[[PHImageManager defaultManager] requestAVAssetForVideo:asset options:options resultHandler:^(AVAsset *asset, AVAudioMix *audioMix, NSDictionary *info) {
+			if([asset isKindOfClass:[AVURLAsset class]]) {
+				AVURLAsset* urlAsset = (AVURLAsset*)asset;
+				NSNumber *size;
+
+				[urlAsset.URL getResourceValue:&size forKey:NSURLFileSizeKey error:nil];
+				NSLog(@"%lu", (unsigned long)size);
+				imageSize = (unsigned long)size;
+			}
+		}];
+	} else {
+		// Fetch image data to retrieve file size and path
+		PHImageRequestOptions * options = [[PHImageRequestOptions alloc] init];
+		options.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
+		options.resizeMode = PHImageRequestOptionsResizeModeExact;
+		options.synchronous = YES; //Set this to NO if is needed
+
+    	[[PHImageManager defaultManager] requestImageDataForAsset:asset options:options resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
+		    NSLog(@"%lu", (unsigned long)imageData.length);
+		    imageSize = (unsigned long)imageData.length;
+		}];
+	}
+    return imageSize;
+}
+
 -(NSInteger)isSelect:(PHAsset *)asset
 {
     int is=-1;
@@ -450,15 +486,23 @@
 }
     
 -(void)alertMax{
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@""
-                                                                             message:NSLocalizedString(@"maxSelectAlert",nil)
-                                                                      preferredStyle:UIAlertControllerStyleAlert];
+    NSString *message = [NSString stringWithFormat:NSLocalizedString(@"maxSelectAlert", nil), self.maxSelectCount];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"" message:message preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"ok",nil) style:UIAlertActionStyleDefault handler:nil];
     [alertController addAction:okAction];
     
     [self presentViewController:alertController animated:YES completion:nil];
 }
+
+-(void)alertSize{
+    NSString *message = [NSString stringWithFormat:NSLocalizedString(@"maxSizeAlert", nil), (float)self.maxSelectSize/1048576];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"" message:message preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"ok",nil) style:UIAlertActionStyleDefault handler:nil];
+    [alertController addAction:okAction];
     
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+
 - (NSString *)getNewTimeFromDurationSecond:(NSInteger)duration {
     NSString *newTime;
     if (duration < 10) {

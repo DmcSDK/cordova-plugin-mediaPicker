@@ -3,7 +3,8 @@
 "Back"="Zurück";
 "All"="Alle Fotos";
 "Video"="Video";
-"maxSelectAlert"="Maximale Anzahl erreicht";
+"maxSelectAlert"="Sie können nur %d Bilder auswählen";
+"maxSizeAlert"="Sie können nur Bilder mit einer Größe von bis zu %.02f MB auswählen";
 "ok"="OK";
 "Unable to access album" = "Auf Album kann nicht zugegriffen werden";
 "Please allow to access your album" = "Bitte erlaube den Zugriff auf Dein Album in \"Einstellungen -> Datenschutz -> Fotos\"";
