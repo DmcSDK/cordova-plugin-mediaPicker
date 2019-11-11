@@ -100,12 +100,12 @@ cameraOptions docs: https://cordova.apache.org/docs/en/latest/reference/cordova-
 ```
 //please add : cordova plugin add cordova-plugin-camera
 document.getElementById('takePhotoBtn').onclick = function() {
-    var cameraOptions={ quality: 25,mediaType: Camera.MediaType.PICTURE };//see cordova camera docs
-    MediaPicker.takePhoto(function(media) {
+    var cameraOptions={ quality: 50,mediaType: Camera.MediaType.PICTURE };//see cordova camera docs
+    MediaPicker.takePhoto(cameraOptions,function(media) {
             media.index=0;//index use to imgs[data.index].src; // media.index=resultMedias.length;
             resultMedias.push(media);
             getThumbnail(resultMedias);
-      }, function(e) { console.log(e) }, cameraOptions);
+      }, function(e) { console.log(e) });
 };
 ```    
 
