@@ -30,11 +30,7 @@
     }@catch (NSException *exception) {
         NSLog(@"Exception: %@", exception);
     }
-    @try{
-        dmc.maxSelectSize=[[options objectForKey:@"maxSelectSize"]integerValue];
-    }@catch (NSException *exception) {
-        NSLog(@"Exception: %@", exception);
-    }
+    dmc.modalPresentationStyle = 0;
     dmc._delegate=self;
     [self.viewController presentViewController:[[UINavigationController alloc]initWithRootViewController:dmc] animated:YES completion:nil];
 }

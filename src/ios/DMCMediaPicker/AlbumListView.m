@@ -86,6 +86,7 @@
         [cell addSubview:cellImageView];
         
         UILabel *cellText = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(cellImageView.frame)+margin, 0, self.bounds.size.width, _cellHeight)];
+        cellText.textColor = [UIColor blackColor];
         cellText.tag = 102;
         [cell addSubview:cellText];
     }
@@ -115,7 +116,7 @@
                                                 NSMutableAttributedString * attrStr=[[NSMutableAttributedString alloc]initWithString:str];
                                                 
                                                 [attrStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:17] range:[str rangeOfString:titileName]];
-                                                
+                                                 
                                                 [attrStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:12] range:[str rangeOfString:count]];
                                                 cellText.attributedText =attrStr;
                                                 
