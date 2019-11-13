@@ -25,7 +25,6 @@
   </platform>
 
   <platform name="ios">
-    <preference name="IOS_PHOTO_LIBRARY_USAGE_DESCRIPTION" />
     <config-file parent="/*" target="config.xml">
       <feature name="MediaPicker">
         <param name="ios-package" value="MediaPicker"/>
