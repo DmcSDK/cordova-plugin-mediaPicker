@@ -9,3 +9,5 @@
 "Please allow to access your album" = "Por favor permita el acceso a sus albums en \"Configuraciones -> Privacidad -> Album\"";
 "Setting" = "Configuraciones";
 "Preview" = "Vista previa";
+"photo_download_failed" = "Se produjo un error al descargar las fotos seleccionadas de su biblioteca de fotos de iCloud. Esto podría deberse a una mala conectividad a Internet. Verifique su conexión a Internet e intente nuevamente";
+
