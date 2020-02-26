@@ -8,7 +8,7 @@ var MediaPicker = {
     photoLibrary:function(arg0, success, error) {
         exec(success, error, "MediaPicker", "photoLibrary", [arg0]);
     },
-    takePhoto:function(success, error, cameraOptions) {
+    takePhoto:function(cameraOptions,success, error) {
         cameraOptions.destinationType= Camera.DestinationType.FILE_URI; //only support FILE_URI
         navigator.camera.getPicture(function(arg0){
             MediaPicker.getFileInfo(arg0,"uri", function(media) {

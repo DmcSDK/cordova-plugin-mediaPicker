@@ -1,13 +1,12 @@
-# MediaPicker v:2.3.0 
+# MediaPicker v:2.3.0
 
-android ios mediaPicker support  selection of multiple image and video gif  (Support Chinese English Spanish Portuguese)</br>
+android ios mediaPicker support selection of multiple image and video gif (Support Chinese English Spanish Portuguese)</br>
 
-android 和 ios cordova图片视频选择插件，支持多图 视频 gif，ui类似微信。 联系QQ：3451927565</br>
+android 和 ios cordova 图片视频选择插件，支持多图 视频 gif，ui 类似微信。 联系 QQ：3451927565</br>
 
 [GitHub:](https://github.com/DmcSDK/cordova-plugin-mediaPicker) https://github.com/DmcSDK/cordova-plugin-mediaPicker</br>
 
-怎么用？How do I use?
--------------------
+## 怎么用？How do I use?
 
 use npm OR github:
 
@@ -20,6 +19,7 @@ use npm OR github:
 ```
 
 ## Example
+
 html code:
 
     <body>
@@ -34,7 +34,8 @@ html code:
         <script type="text/javascript" src="js/index.js"></script>
     </body>
 
-demo.js **simple** code: 
+demo.js **simple** code:
+
 ```
 var resultMedias=[];
 var imgs = document.getElementsByName('imgView');
@@ -64,10 +65,12 @@ function getThumbnail(medias) {
 }
 
 function loadingUI() {}
-```    
+```
 
 ### upload and compress 上传 和 压缩
+
 demo.js **upload** and **compress** code:
+
 ```
 document.getElementById('uploadBtn').onclick = function() {
     //please:  cordova plugin add cordova-plugin-file-transfer
@@ -93,27 +96,30 @@ function compressImage() {
 document.addEventListener("MediaPicker.CompressVideoEvent", function(data) {
     alert(data.status + "||" + data.index);
 }, false);
-```    
+```
 
-### takePhoto 拍照 
+### takePhoto 拍照
+
 demo.js **takePhoto** code:
 
 please add : cordova plugin add cordova-plugin-camera
 
 cameraOptions docs: https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-camera/index.html#camera
+
 ```
 //please add : cordova plugin add cordova-plugin-camera
 document.getElementById('takePhotoBtn').onclick = function() {
-    var cameraOptions={ quality: 25,mediaType: Camera.MediaType.PICTURE };//see cordova camera docs
-    MediaPicker.takePhoto(function(media) {
+    var cameraOptions={ quality: 50,mediaType: Camera.MediaType.PICTURE };//see cordova camera docs
+    MediaPicker.takePhoto(cameraOptions,function(media) {
             media.index=0;//index use to imgs[data.index].src; // media.index=resultMedias.length;
             resultMedias.push(media);
             getThumbnail(resultMedias);
-      }, function(e) { console.log(e) }, cameraOptions);
+      }, function(e) { console.log(e) });
 };
-```    
+```
 
-# More api 其他API
+# More api 其他 API
+
 [API](https://github.com/DmcSDK/cordova-plugin-mediaPicker/blob/master/www/MediaPicker.js) https://github.com/DmcSDK/cordova-plugin-mediaPicker/blob/master/www/MediaPicker.js</br>
 
 [My android source code GitHub:](https://github.com/DmcSDK/MediaPickerPoject) https://github.com/DmcSDK/MediaPickerPoject</br>
@@ -122,9 +128,6 @@ document.getElementById('takePhotoBtn').onclick = function() {
 
 # Screenshots
 
-| Android         | iOS          |
-|:---------------:|:------------:|
+|                                                                   Android                                                                   |                                                                iOS                                                                 |
+| :-----------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------: |
 | <img src="https://raw.githubusercontent.com/DmcSDK/cordova-plugin-mediaPicker/master/www/demo/Screenshots1.png" width="270px" height="480"> | <img src="https://raw.githubusercontent.com/DmcSDK/cordova-plugin-mediaPicker/master/www/demo/ios.png" width="270px" height="480"> |
-
-
-

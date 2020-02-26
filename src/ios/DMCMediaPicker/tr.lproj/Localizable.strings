@@ -2,9 +2,11 @@
 "Done"="Bitti";
 "All"="Tümü";
 "Video"="Video";
-"maxSelectAlert"="Maksimum seçime ulaşıldı!";
+"maxSelectAlert"="Sadece %d görüntü seçebilirsiniz";
+"maxSizeAlert"="Yalnızca %.02f mb boyutunda olan resimleri seçebilirsiniz";
 "ok"="Tamam";
 "Unable to access album" = "Galerinize erişilemiyor";
 "Please allow to access your album" = "Lütfen \"Ayarlar -> Gizlilik -> Fotoğraflar\" menüsünden uygulamaya erişim izni verin.";
 "Setting" = "Ayarlar";
 "Preview" = "Ön izleme";
+"photo_download_failed" = "İCloud Fotoğraf Kitaplığınızdan seçilen fotoğraflar indirilirken bir hata oluştu. Bunun nedeni zayıf internet bağlantısı olabilir. Lütfen internet bağlantınızı kontrol edin ve tekrar deneyin";

@@ -2,9 +2,11 @@
 "Done"="完成";
 "All"="所有照片";
 "Video"="视频";
-"maxSelectAlert"="已达到选择数量上限";
+"maxSelectAlert"="您只能选择%d张图片";
+"maxSizeAlert"="您只能选择最大%.02f mb的图像";
 "ok"="好";
 "Unable to access album" = "无法访问相册";
 "Please allow to access your album" = "请在设置-隐私-相册中允许访问相册";
 "Setting" = "设置";
 "Preview" = "预览";
+"photo_download_failed" = "从您的iCloud照片库下载所选照片时出错。这可能是由于互联网连接状况不佳。请检查您的互联网连接，然后重试";

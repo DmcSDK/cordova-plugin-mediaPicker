@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-mediapicker-dmcsdk" version="2.4.3">
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-mediapicker-dmcsdk" version="2.4.7">
   <name>MediaPicker</name>
   <js-module name="MediaPicker" src="www/MediaPicker.js">
     <clobbers target="window.MediaPicker"/>
@@ -24,7 +24,6 @@
   </platform>
 
   <platform name="ios">
-    <preference name="IOS_PHOTO_LIBRARY_USAGE_DESCRIPTION" />
     <config-file parent="/*" target="config.xml">
       <feature name="MediaPicker">
         <param name="ios-package" value="MediaPicker"/>
@@ -38,14 +37,14 @@
     <header-file src="src/ios/DMCMediaPicker/PreviewCell.h" />
     <source-file src="src/ios/DMCMediaPicker/PreviewCell.m"/>
     <header-file src="src/ios/DMCMediaPicker/PreviewViewController.h" />
-    <source-file src="src/ios/DMCMediaPicker/PreviewViewController.m"/>  
+    <source-file src="src/ios/DMCMediaPicker/PreviewViewController.m"/>
     <header-file src="src/ios/DMCMediaPicker/AlbumListView.h" />
-    <source-file src="src/ios/DMCMediaPicker/AlbumListView.m"/>  
+    <source-file src="src/ios/DMCMediaPicker/AlbumListView.m"/>
 
     <header-file src="src/ios/DMCMediaPicker/FLAnimatedImage/FLAnimatedImage.h" />
-    <source-file src="src/ios/DMCMediaPicker/FLAnimatedImage/FLAnimatedImage.m"/>   
+    <source-file src="src/ios/DMCMediaPicker/FLAnimatedImage/FLAnimatedImage.m"/>
     <header-file src="src/ios/DMCMediaPicker/FLAnimatedImage/FLAnimatedImageView.h" />
-    <source-file src="src/ios/DMCMediaPicker/FLAnimatedImage/FLAnimatedImageView.m"/>         
+    <source-file src="src/ios/DMCMediaPicker/FLAnimatedImage/FLAnimatedImageView.m"/>
 
     <resource-file src="src/ios/DMCMediaPicker/dmcPicker.bundle"/>
     <resource-file src="src/ios/DMCMediaPicker/en.lproj"/>
@@ -56,6 +55,6 @@
     <resource-file src="src/ios/DMCMediaPicker/tr.lproj"/>
     <config-file target="*-Info.plist" parent="NSPhotoLibraryUsageDescription">
       <string>$IOS_PHOTO_LIBRARY_USAGE_DESCRIPTION</string>
-    </config-file>  
+    </config-file>
   </platform>
 </plugin>

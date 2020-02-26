@@ -2,9 +2,12 @@
 "Done"="hecho";
 "All"="Todas las fotos";
 "Video"="Video";
-"maxSelectAlert"="Has alcanzado el número maximo de selecciones";
+"maxSelectAlert"="Solo puedes seleccionar %d imágenes";
+"maxSizeAlert"="Solo puede seleccionar imágenes de hasta %.02f mb de tamaño";
 "ok"="OK";
 "Unable to access album" = "Denegado el acceso al album";
 "Please allow to access your album" = "Por favor permita el acceso a sus albums en \"Configuraciones -> Privacidad -> Album\"";
 "Setting" = "Configuraciones";
 "Preview" = "Vista previa";
+"photo_download_failed" = "Se produjo un error al descargar las fotos seleccionadas de su biblioteca de fotos de iCloud. Esto podría deberse a una mala conectividad a Internet. Verifique su conexión a Internet e intente nuevamente";
+
