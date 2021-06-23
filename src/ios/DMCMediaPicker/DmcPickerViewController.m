@@ -168,7 +168,9 @@
                 [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Setting",nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
                 }]];
-                [self presentViewController:alert animated:YES completion:nil];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self presentViewController:alert animated:YES completion:nil];
+                });
             }else {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self getAlassetData];
