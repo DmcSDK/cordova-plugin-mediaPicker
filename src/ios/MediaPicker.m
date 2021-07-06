@@ -77,8 +77,10 @@
 
 -(void)imageToSandbox:(PHAsset *)asset dmcPickerPath:(NSString*)dmcPickerPath aListArray:(NSMutableArray*)aListArray selectArray:(NSMutableArray*)selectArray index:(int)index{
     PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
+    options.synchronous = NO;
     options.networkAccessAllowed = YES;
     options.resizeMode = PHImageRequestOptionsResizeModeFast;
+    options.version = PHImageRequestOptionsVersionCurrent;
     options.progressHandler = ^(double progress, NSError *error, BOOL *stop, NSDictionary *info) {
         NSString *compressCompletedjs = [NSString stringWithFormat:@"MediaPicker.icloudDownloadEvent(%f,%i)", progress,index];
         [self.commandDelegate evalJs:compressCompletedjs];
@@ -86,6 +88,10 @@
     [[PHImageManager defaultManager] requestImageDataForAsset:asset  options:options resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
         if(imageData != nil) {
             NSString *filename=[asset valueForKey:@"filename"];
+            if ([filename hasSuffix:@".HEIC"]) {
+                imageData = UIImageJPEGRepresentation([UIImage imageWithData:imageData], 1);
+                filename = [filename stringByReplacingOccurrencesOfString:@".HEIC" withString:@".JPG"];
+            }
             NSString *fullpath=[NSString stringWithFormat:@"%@/%@%@", dmcPickerPath,[[NSProcessInfo processInfo] globallyUniqueString], filename];
             NSNumber *size=[NSNumber numberWithLong:imageData.length];
 
