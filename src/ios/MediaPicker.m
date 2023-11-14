@@ -39,8 +39,10 @@
     if (@available(iOS 13.0, *)) {
         dmc.modalInPresentation = true;
     }
+    dmc.modalPresentationStyle = UIModalPresentationFullScreen;
     dmc._delegate=self;
-    [self.viewController presentViewController:[[UINavigationController alloc]initWithRootViewController:dmc] animated:YES completion:nil];
+    [self.viewController presentViewController:dmc animated:YES completion:nil];
+    //[self.viewController presentViewController:[[UINavigationController alloc]initWithRootViewController:dmc] animated:YES completion:nil];
 }
 
 -(void) resultPicker:(NSMutableArray*) selectArray
