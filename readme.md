@@ -16,7 +16,7 @@ use npm OR github:
 ```
 
 ## Android tips
-add this code in repositories.gradle file。
+add this code in **repositories.gradle** file。
 becouse android mediapick4.0 core code in jitpack.io。
 ```
 ext.repos = {
