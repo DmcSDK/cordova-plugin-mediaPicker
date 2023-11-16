@@ -15,6 +15,19 @@ use npm OR github:
   cordova plugin add https://github.com/DmcSDK/cordova-plugin-mediaPicker.git --variable IOS_PHOTO_LIBRARY_USAGE_DESCRIPTION="your usage message"
 ```
 
+## Android tips
+add this code in repositories.gradle file。
+becouse android mediapick4.0 core code in jitpack.io。
+```
+ext.repos = {
+    google()
+    mavenCentral()
+    maven { //add this 
+        url 'https://jitpack.io' //add this 
+    }
+}
+```
+
 ## Example
 html code:
 
