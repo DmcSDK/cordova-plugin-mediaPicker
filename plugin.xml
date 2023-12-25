@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-mediapicker-dmcsdk" version="2.5.0">
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-mediapicker-dmcsdk" version="2.5.1">
   <name>MediaPicker</name>
   <js-module name="MediaPicker" src="www/MediaPicker.js">
     <clobbers target="window.MediaPicker"/>
@@ -24,7 +24,7 @@
         <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="32"/>
     </config-file>
 
-    <framework src="com.github.DmcSDK:MediaPickerPoject:v4.1"/>
+    <framework src="com.github.DmcSDK:MediaPickerPoject:v4.2"/>
     <source-file src="src/android/MediaPicker.java" target-dir="src/com/dmc/mediaPickerPlugin"/>
     <source-file src="src/android/FileHelper.java" target-dir="src/com/dmc/mediaPickerPlugin"/>
     <resource-file src="src/android/Library/res/values-tr/multiimagechooser_strings_tr.xml" target="res/values-tr/multiimagechooser_strings_tr.xml"/>
